@@ -1,6 +1,6 @@
 ﻿import emailjs from 'emailjs-com'
 import { motion } from 'framer-motion'
-import { AlertCircle, ArrowUpRight, CheckCircle2, Link2, Mail, Send } from 'lucide-react'
+import { AlertCircle, ArrowUpRight, CheckCircle2, Send } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import MagneticButton from '../ui/MagneticButton'
 import Reveal from '../ui/Reveal'
@@ -12,9 +12,39 @@ const initialState = {
   message: '',
 }
 
-export default function ContactSection({ contact }) {
+const formCopy = {
+  pt: {
+    name: 'Nome',
+    email: 'Email',
+    message: 'Mensagem',
+    namePlaceholder: 'Seu nome',
+    emailPlaceholder: 'voce@empresa.com',
+    messagePlaceholder: 'Conte um pouco sobre o desafio, produto ou ideia que você quer tirar do papel.',
+    submit: 'Enviar mensagem',
+    sending: 'Enviando...',
+    missingConfig: 'O envio está preparado, mas as chaves do EmailJS ainda não foram configuradas neste ambiente.',
+    success: 'Mensagem enviada com sucesso. Obrigado pelo contato.',
+    error: 'Não foi possível enviar agora. Tente novamente em instantes.',
+  },
+  en: {
+    name: 'Name',
+    email: 'Email',
+    message: 'Message',
+    namePlaceholder: 'Your name',
+    emailPlaceholder: 'you@company.com',
+    messagePlaceholder: 'Tell me about the challenge, product, or idea you want to bring to life.',
+    submit: 'Send message',
+    sending: 'Sending...',
+    missingConfig: 'The form is ready, but the EmailJS keys have not been configured in this environment yet.',
+    success: 'Message sent successfully. Thanks for reaching out.',
+    error: 'It was not possible to send right now. Please try again in a moment.',
+  },
+}
+
+export default function ContactSection({ contact, locale = 'pt' }) {
   const [formData, setFormData] = useState(initialState)
   const [status, setStatus] = useState({ type: 'idle', message: '' })
+  const copy = formCopy[locale] ?? formCopy.pt
 
   const emailConfig = useMemo(
     () => ({
@@ -36,15 +66,12 @@ export default function ContactSection({ contact }) {
     event.preventDefault()
 
     if (!hasEmailConfig) {
-      setStatus({
-        type: 'error',
-        message: 'O envio está preparado, mas as chaves do EmailJS ainda não foram configuradas neste ambiente.',
-      })
+      setStatus({ type: 'error', message: copy.missingConfig })
       return
     }
 
     try {
-      setStatus({ type: 'loading', message: 'Enviando mensagem...' })
+      setStatus({ type: 'loading', message: copy.sending })
 
       await emailjs.send(
         emailConfig.serviceId,
@@ -58,9 +85,9 @@ export default function ContactSection({ contact }) {
       )
 
       setFormData(initialState)
-      setStatus({ type: 'success', message: 'Mensagem enviada com sucesso. Obrigado pelo contato.' })
+      setStatus({ type: 'success', message: copy.success })
     } catch (error) {
-      setStatus({ type: 'error', message: 'Não foi possível enviar agora. Tente novamente em instantes.' })
+      setStatus({ type: 'error', message: copy.error })
     }
   }
 
@@ -74,25 +101,25 @@ export default function ContactSection({ contact }) {
             <form className="panel rounded-[2rem] p-6 md:p-7" onSubmit={handleSubmit}>
               <div className="grid gap-4 md:grid-cols-2">
                 <label className="block text-sm font-medium text-white/80">
-                  Nome
+                  {copy.name}
                   <input
-                    aria-label="Nome"
+                    aria-label={copy.name}
                     className="input-field mt-2"
                     name="name"
-                    placeholder="Seu nome"
+                    placeholder={copy.namePlaceholder}
                     value={formData.name}
                     onChange={handleChange}
                     required
                   />
                 </label>
                 <label className="block text-sm font-medium text-white/80">
-                  Email
+                  {copy.email}
                   <input
-                    aria-label="Email"
+                    aria-label={copy.email}
                     className="input-field mt-2"
                     name="email"
                     type="email"
-                    placeholder="voce@empresa.com"
+                    placeholder={copy.emailPlaceholder}
                     value={formData.email}
                     onChange={handleChange}
                     required
@@ -101,12 +128,12 @@ export default function ContactSection({ contact }) {
               </div>
 
               <label className="mt-4 block text-sm font-medium text-white/80">
-                Mensagem
+                {copy.message}
                 <textarea
-                  aria-label="Mensagem"
+                  aria-label={copy.message}
                   className="input-field mt-2 min-h-40 resize-y"
                   name="message"
-                  placeholder="Conte um pouco sobre o desafio, produto ou ideia que você quer tirar do papel."
+                  placeholder={copy.messagePlaceholder}
                   value={formData.message}
                   onChange={handleChange}
                   required
@@ -117,7 +144,7 @@ export default function ContactSection({ contact }) {
                 <MagneticButton className="min-w-[14rem]" type="submit" disabled={status.type === 'loading'}>
                   <span className="inline-flex items-center gap-2">
                     <Send size={16} />
-                    {status.type === 'loading' ? 'Enviando...' : 'Enviar mensagem'}
+                    {status.type === 'loading' ? copy.sending : copy.submit}
                   </span>
                 </MagneticButton>
                 <p className="text-sm leading-6 text-[var(--muted)]">{contact.emailConfigNote}</p>
@@ -144,26 +171,8 @@ export default function ContactSection({ contact }) {
 
           <Reveal delay={0.1} className="space-y-4">
             {contact.socialLinks.map((item) => {
-              const icon = item.label === 'LinkedIn' ? Link2 : item.label === 'Email' ? Mail : ArrowUpRight
-              const Icon = icon
+              const Icon = item.icon
               const commonClasses = 'panel panel-hover flex items-center justify-between gap-4 rounded-[1.8rem] px-5 py-5'
-
-              if (!item.href) {
-                return (
-                  <div key={item.label} className={`${commonClasses} opacity-70`}>
-                    <div className="flex items-center gap-4">
-                      <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/6 text-white">
-                        <Icon size={20} />
-                      </div>
-                      <div>
-                        <p className="font-display text-lg text-white">{item.label}</p>
-                        <p className="mt-1 text-sm text-[var(--muted)]">{item.value}</p>
-                      </div>
-                    </div>
-                    <span className="text-xs uppercase tracking-[0.2em] text-[var(--muted)]">Em breve</span>
-                  </div>
-                )
-              }
 
               return (
                 <a key={item.label} href={item.href} target="_blank" rel="noreferrer" className={commonClasses}>
@@ -186,4 +195,3 @@ export default function ContactSection({ contact }) {
     </section>
   )
 }
-

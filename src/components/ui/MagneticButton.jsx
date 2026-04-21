@@ -26,18 +26,18 @@ export default function MagneticButton({
     }
 
     const bounds = event.currentTarget.getBoundingClientRect()
-    const x = (event.clientX - bounds.left - bounds.width / 2) * 0.12
-    const y = (event.clientY - bounds.top - bounds.height / 2) * 0.18
+    const x = (event.clientX - bounds.left - bounds.width / 2) * 0.06
+    const y = (event.clientY - bounds.top - bounds.height / 2) * 0.08
     setPosition({ x, y })
   }
 
   const handleLeave = () => setPosition({ x: 0, y: 0 })
 
   const sharedProps = {
-    whileHover: disabled ? undefined : { scale: 1.02 },
-    whileTap: disabled ? undefined : { scale: 0.98 },
+    whileHover: disabled ? undefined : { scale: 1.015 },
+    whileTap: disabled ? undefined : { scale: 0.985 },
     animate: position,
-    transition: { type: 'spring', stiffness: 220, damping: 18 },
+    transition: { type: 'spring', stiffness: 520, damping: 26, mass: 0.45 },
     onMouseMove: handleMove,
     onMouseLeave: handleLeave,
     className: `inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-semibold tracking-wide ${variants[variant]} ${disabled ? 'cursor-not-allowed opacity-60' : ''} ${className}`,

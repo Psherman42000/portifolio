@@ -31,7 +31,9 @@ export default function HeroSection({ hero }) {
 
       <div className="section-shell relative z-10 grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.72fr)] lg:items-center">
         <Reveal className="max-w-3xl">
-          <p className="mb-6 text-xs font-semibold uppercase tracking-[0.36em] text-[rgba(0,255,209,0.78)]">{hero.eyebrow}</p>
+          {hero.eyebrow ? (
+            <p className="mb-6 text-xs font-semibold uppercase tracking-[0.36em] text-[rgba(0,255,209,0.78)]">{hero.eyebrow}</p>
+          ) : null}
           <h1
             className="glitch font-display text-5xl leading-none text-white sm:text-7xl md:text-[5.6rem]"
             data-text={typedName}
@@ -73,7 +75,7 @@ export default function HeroSection({ hero }) {
 
         <Reveal delay={0.15} className="hidden lg:block">
           <div className="panel rounded-[2rem] p-7">
-            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[rgba(0,255,209,0.72)]">Cockpit Overview</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[rgba(0,255,209,0.72)]">{hero.commandCenterTitle}</p>
             <div className="mt-6 space-y-4">
               {hero.commandCenter.map((item) => (
                 <div key={item.label} className="flex items-center justify-between gap-4 border-b border-white/8 pb-4 last:border-0 last:pb-0">
@@ -88,7 +90,7 @@ export default function HeroSection({ hero }) {
 
       <a href="#sobre" className="scroll-indicator absolute bottom-7 left-1/2 z-10 -translate-x-1/2 text-xs uppercase tracking-[0.24em]">
         <span className="wheel" />
-        scroll
+        {hero.scrollLabel}
       </a>
     </section>
   )

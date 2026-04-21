@@ -1,4 +1,5 @@
-﻿import { defaultLocale, portfolioData } from './data'
+import { useEffect, useMemo, useState } from 'react'
+import { defaultLocale, portfolioData, supportedLocales } from './data'
 import Navbar from './components/ui/Navbar'
 import CustomCursor from './components/ui/CustomCursor'
 import AnimatedDivider from './components/ui/AnimatedDivider'
@@ -10,9 +11,28 @@ import HighlightsSection from './components/sections/HighlightsSection'
 import ContactSection from './components/sections/ContactSection'
 import FooterSection from './components/sections/FooterSection'
 
-const content = portfolioData[defaultLocale]
+function getInitialLocale() {
+  if (typeof window === 'undefined') {
+    return defaultLocale
+  }
+
+  const saved = window.localStorage.getItem('portfolio-locale')
+  if (saved && supportedLocales.includes(saved)) {
+    return saved
+  }
+
+  return defaultLocale
+}
 
 export default function App() {
+  const [locale, setLocale] = useState(getInitialLocale)
+  const content = useMemo(() => portfolioData[locale] ?? portfolioData[defaultLocale], [locale])
+
+  useEffect(() => {
+    window.localStorage.setItem('portfolio-locale', locale)
+    document.documentElement.lang = locale === 'en' ? 'en' : 'pt-BR'
+  }, [locale])
+
   return (
     <div className="relative min-h-screen bg-[var(--bg)] text-[var(--text)]">
       <CustomCursor />
@@ -23,20 +43,26 @@ export default function App() {
         <div className="absolute right-[-8rem] top-[10rem] h-[24rem] w-[24rem] rounded-full bg-[radial-gradient(circle,rgba(123,97,255,0.22),transparent_70%)] blur-3xl" />
       </div>
 
-      <Navbar nav={content.nav} cv={content.cv} />
+      <Navbar
+        nav={content.nav}
+        cv={content.cv}
+        locale={locale}
+        localeLabel={content.localeToggleLabel}
+        onLocaleChange={setLocale}
+      />
 
       <main className="relative z-10">
         <HeroSection hero={content.hero} />
-        <AnimatedDivider label="Origem" />
+        <AnimatedDivider label={content.dividers.about} />
         <AboutSection about={content.about} />
-        <AnimatedDivider label="Trajetória" />
+        <AnimatedDivider label={content.dividers.experience} />
         <ExperienceSection experience={content.experience} />
-        <AnimatedDivider label="Stack" />
+        <AnimatedDivider label={content.dividers.skills} />
         <SkillsSection skills={content.skillGroups} sectionMeta={content.skillsMeta} />
-        <AnimatedDivider label="Impacto" />
+        <AnimatedDivider label={content.dividers.highlights} />
         <HighlightsSection highlights={content.highlights} />
-        <AnimatedDivider label="Contato" />
-        <ContactSection contact={content.contact} />
+        <AnimatedDivider label={content.dividers.contact} />
+        <ContactSection contact={content.contact} locale={locale} />
       </main>
 
       <FooterSection footer={content.footer} />

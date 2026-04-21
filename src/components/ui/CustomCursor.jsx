@@ -14,8 +14,8 @@ export default function CustomCursor() {
     let frameId
 
     const animate = () => {
-      current.x += (target.x - current.x) * 0.14
-      current.y += (target.y - current.y) * 0.14
+      current.x += (target.x - current.x) * 0.34
+      current.y += (target.y - current.y) * 0.34
 
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate3d(${current.x - 9}px, ${current.y - 9}px, 0)`
