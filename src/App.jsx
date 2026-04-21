@@ -30,7 +30,7 @@ export default function App() {
 
   useEffect(() => {
     window.localStorage.setItem('portfolio-locale', locale)
-    document.documentElement.lang = locale === 'en' ? 'en' : 'pt-BR'
+    document.documentElement.lang = locale === 'en' ? 'en' : locale === 'es' ? 'es' : 'pt-BR'
   }, [locale])
 
   return (

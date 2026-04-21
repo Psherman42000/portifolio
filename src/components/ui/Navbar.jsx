@@ -6,12 +6,14 @@ import { useActiveSection } from '../../hooks/useActiveSection'
 const localeOptions = [
   { value: 'pt', label: 'PT' },
   { value: 'en', label: 'EN' },
+  { value: 'es', label: 'ES' },
 ]
 
 export default function Navbar({ nav, cv, locale, localeLabel, onLocaleChange }) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const activeSection = useActiveSection(nav.map((item) => item.href.replace('#', '')))
+  const menuAriaLabel = locale === 'en' ? (isOpen ? 'Close menu' : 'Open menu') : locale === 'es' ? (isOpen ? 'Cerrar menú' : 'Abrir menú') : isOpen ? 'Fechar menu' : 'Abrir menu'
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 32)
@@ -87,7 +89,7 @@ export default function Navbar({ nav, cv, locale, localeLabel, onLocaleChange })
           <button
             type="button"
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white md:hidden"
-            aria-label={isOpen ? 'Fechar menu' : 'Abrir menu'}
+            aria-label={menuAriaLabel}
             onClick={() => setIsOpen((current) => !current)}
           >
             {isOpen ? <X size={18} /> : <Menu size={18} />}

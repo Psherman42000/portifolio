@@ -39,6 +39,19 @@ const formCopy = {
     success: 'Message sent successfully. Thanks for reaching out.',
     error: 'It was not possible to send right now. Please try again in a moment.',
   },
+  es: {
+    name: 'Nombre',
+    email: 'Email',
+    message: 'Mensaje',
+    namePlaceholder: 'Tu nombre',
+    emailPlaceholder: 'tu@empresa.com',
+    messagePlaceholder: 'Cuéntame un poco sobre el desafío, producto o idea que quieres llevar a la realidad.',
+    submit: 'Enviar mensaje',
+    sending: 'Enviando...',
+    missingConfig: 'El envío está preparado, pero las claves de EmailJS todavía no fueron configuradas en este entorno.',
+    success: 'Mensaje enviado con éxito. Gracias por tu contacto.',
+    error: 'No fue posible enviar ahora. Inténtalo de nuevo en unos instantes.',
+  },
 }
 
 export default function ContactSection({ contact, locale = 'pt' }) {
