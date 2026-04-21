@@ -2,6 +2,7 @@
   Activity,
   BadgeCheck,
   Bot,
+  Boxes,
   BrainCircuit,
   Braces,
   Building2,
@@ -289,8 +290,7 @@ export const portfolioData = {
     },
     footer: {
       terminal: '> building the future, one integration at a time_',
-      signature: 'Pedro Dias — Tech Lead • Software Engineer • AI & Integration Specialist',
+      signature: 'Pedro Dias - Tech Lead • Software Engineer • AI & Integration Specialist',
     },
   },
 }
-

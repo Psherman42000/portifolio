@@ -7,5 +7,7 @@ coverage
 !.env.example
 dist
 .superpowers
+.playwright-cli
+output
 .DS_Store
 Thumbs.db
