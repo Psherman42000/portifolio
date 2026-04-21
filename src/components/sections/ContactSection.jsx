@@ -147,7 +147,6 @@ export default function ContactSection({ contact, locale = 'pt' }) {
                     {status.type === 'loading' ? copy.sending : copy.submit}
                   </span>
                 </MagneticButton>
-                <p className="text-sm leading-6 text-[var(--muted)]">{contact.emailConfigNote}</p>
               </div>
 
               {status.type !== 'idle' ? (
