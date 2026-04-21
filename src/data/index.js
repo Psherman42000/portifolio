@@ -1,10 +1,9 @@
 ﻿import {
   Activity,
-  BadgeCheck,
+  ArrowRightLeft,
   Bot,
-  Boxes,
   BrainCircuit,
-  Braces,
+  Boxes,
   Building2,
   Cable,
   CloudCog,
@@ -12,17 +11,18 @@
   Database,
   FlaskConical,
   Globe2,
-  GraduationCap,
   LayoutPanelTop,
   MonitorCog,
+  Network,
+  RadioTower,
   Rocket,
+  Send,
   ServerCog,
   ShieldCheck,
   ShoppingCart,
   Store,
   TestTube2,
   Trophy,
-  Workflow,
   Wrench,
   Zap,
 } from 'lucide-react'
@@ -30,837 +30,332 @@
 export const defaultLocale = 'pt'
 export const supportedLocales = ['pt', 'en', 'es']
 
-export const portfolioData = {
-  pt: {
-    localeLabel: 'PT',
-    nav: [
-      { label: 'Sobre', href: '#sobre' },
-      { label: 'Experiência', href: '#experiencia' },
-      { label: 'Skills', href: '#skills' },
-      { label: 'Realizações', href: '#realizacoes' },
-      { label: 'Contato', href: '#contato' },
+export const rootNodeIds = ['about', 'experience', 'skills', 'projects', 'contact']
+
+const ptContent = {
+  meta: {
+    title: 'Pedro Dias | Sistema Vivo de Integracoes',
+    description:
+      'Portifolio interativo de Pedro Dias, Tech Lead especializado em integracoes, arquitetura de sistemas e IA aplicada.',
+  },
+  ui: {
+    status: 'Sistema online',
+    mapLabel: 'Mapa de Integracao',
+    tapHint: 'toque para explorar',
+    hoverHint: 'clique em um no para explorar',
+    close: 'Fechar painel',
+    backToMap: 'Voltar ao mapa',
+    stackRoot: 'Mapa',
+    loading: [
+      '> initializing pedro.dias.sys...',
+      '> loading integration protocols... OK',
+      '> mounting 3d environment... OK',
+      '> establishing connections... OK',
+      '> system online OK',
     ],
-    localeToggleLabel: 'Idioma',
-    dividers: {
-      about: 'Origem',
-      experience: 'Trajetória',
-      skills: 'Stack',
-      highlights: 'Impacto',
-      contact: 'Contato',
+    footerCommand: '> pedro.dias@integra.do:~$ building the future, one integration at a time_',
+    footerNote: 'Concebido com React + Three.js | Publicado no Netlify',
+  },
+  cv: {
+    label: 'Download CV',
+    file: '/pedro-dias-cv-2026.pdf',
+  },
+  graph: {
+    center: {
+      id: 'root',
+      label: 'PEDRO DIAS',
+      subtitle: 'Nucleo de integracao',
+      position: [0, 0, 0],
+      color: '#00FFD1',
     },
-    cv: {
-      label: 'Download CV',
-      file: '/pedro-dias-cv-2026.pdf',
-    },
-    hero: {
-      eyebrow: '',
-      name: 'Pedro Dias',
-      roles: ['Tech Lead', 'Software Engineer', 'AI & Integration Specialist', 'Builder of scalable systems'],
-      summary:
-        'Liderando integrações críticas, plataformas escaláveis e experiências de IA aplicada para negócios que precisam operar com clareza, velocidade e inteligência.',
-      primaryCta: { label: 'Ver minha história', href: '#sobre' },
-      secondaryCta: { label: 'Entre em contato', href: '#contato' },
-      scrollLabel: 'scroll',
-      commandCenterTitle: 'Cockpit Overview',
-      commandCenter: [
-        { label: 'Origem', value: 'Brasília, DF' },
-        { label: 'Foco atual', value: 'Integrações + IA aplicada' },
-        { label: 'Escala', value: '+40 projetos' },
-      ],
-    },
-    about: {
-      eyebrow: 'Sobre mim',
-      title: 'Arquitetura sólida, integrações críticas e IA aplicada com impacto real.',
-      description:
-        'Uma trajetória construída entre competição, produto, engenharia e liderança técnica.',
-      paragraphs: [
-        'Sou Pedro Dias, nascido em 2000 em Formosa, GO. Comecei cedo na programação, vencendo as Olimpíadas Brasileiras de Informática, e desde então nunca parei de construir coisas que importam.',
-        'Hoje atuo como Tech Lead na Integra.do, onde lidero equipes e arquiteturas de integração entre alguns dos maiores sistemas da América Latina. Já gerenciei mais de 40 projetos conectando ERPs, e-commerces e gateways de pagamento, de startups a grandes redes varejistas sul-americanas.',
-        'Minha paixão está na fronteira entre arquitetura de software sólida e inteligência artificial aplicada. Trabalho com RAG, Fine-Tuning de modelos, agentes inteligentes e o protocolo MCP, construindo sistemas que não apenas integram, mas pensam.',
-      ],
-      panel: {
-        title: 'Mission Control',
-        subtitle: 'Visão rápida do meu campo de atuação hoje.',
-        items: [
-          { label: 'Tech Lead', value: 'Integra.do' },
-          { label: 'Especialidade', value: 'Integrações de alta criticidade' },
-          { label: 'Horizonte', value: 'AWS, Tencent Cloud, AI agents, RAG, MCP' },
-          { label: 'Região', value: 'Brasil + América Latina' },
-        ],
-        badges: ['Arquitetura de Software', 'Microsserviços', 'Produtização de IA', 'Operação Multi-plataforma'],
-      },
-      stats: [
-        {
-          icon: Rocket,
-          value: 40,
-          prefix: '+',
-          suffix: ' projetos',
-          label: 'Projetos entregues com integrações entre ERPs, e-commerces e pagamentos.',
-        },
-        {
-          icon: Globe2,
-          value: 2,
-          prefix: '',
-          suffix: ' regiões',
-          label: 'Brasil e América Latina em contextos de operação real.',
-        },
-        {
-          icon: BrainCircuit,
-          value: 4,
-          prefix: '',
-          suffix: ' frentes de IA',
-          label: 'RAG, Fine-Tuning, MCP Protocol e agentes inteligentes.',
-        },
-        {
-          icon: CloudCog,
-          value: 2,
-          prefix: '',
-          suffix: ' clouds',
-          label: 'AWS e Tencent Cloud aplicados em plataformas e integrações resilientes.',
-        },
-      ],
-    },
-    experience: {
-      eyebrow: 'Experiência',
-      title: 'Da engenharia hands-on à liderança de times e sistemas escaláveis.',
-      description:
-        'Uma timeline centrada em integração de plataformas, visão de produto e evolução para liderança técnica.',
-      items: [
-        {
-          period: '2024 - Atual',
-          role: 'Tech Lead',
-          company: 'Integra.do',
-          description:
-            'Liderança de equipes, arquitetura de microsserviços, cloud AWS e Tencent Cloud, Docker, Kubernetes e iniciativas com RAG, Fine-Tuning e agentes de IA.',
-          tech: ['AWS', 'Tencent Cloud', 'Docker', 'Kubernetes', 'RAG', 'AI Agents'],
-        },
-        {
-          period: '2024',
-          role: 'Product Manager',
-          company: 'Integra.do',
-          description:
-            'Roadmap estratégico, gestão de KPIs e alinhamento contínuo entre necessidades de negócio e execução da engenharia.',
-          tech: ['KPIs', 'Roadmap', 'Stakeholders', 'Produto'],
-        },
-        {
-          period: '2023 - 2024',
-          role: 'Product Owner',
-          company: 'Integra.do',
-          description:
-            'Atuação com SCRUM + XP, backlog, sprints e especificações técnicas para times construindo integrações robustas.',
-          tech: ['SCRUM', 'XP', 'Backlog', 'Sprints'],
-        },
-        {
-          period: '2022 - 2023',
-          role: 'Software Engineer',
-          company: 'Integra.do',
-          description:
-            'Construção de REST APIs, Webhooks e microsserviços com Node.js, Python e Spring Boot, somando mais de 40 integrações entregues.',
-          tech: ['Node.js', 'Python', 'Spring Boot', 'REST APIs', 'Webhooks'],
-        },
-        {
-          period: '2022',
-          role: 'Software Engineer',
-          company: 'Money Cloud',
-          description: 'Desenvolvimento backend e integração com sistemas financeiros em contexto de operação sensível.',
-          tech: ['Backend', 'Financeiro', 'Integração'],
-        },
-        {
-          period: '2021 - 2022',
-          role: 'Software Engineer Jr',
-          company: 'Cartório Colorado',
-          description: 'Participação na primeira plataforma de casamento online do Brasil, conectando tecnologia e serviço público.',
-          tech: ['Produto Digital', 'Backend', 'Plataforma'],
-        },
-      ],
-    },
-    skillsMeta: {
-      eyebrow: 'Skills',
-      title: 'Competências organizadas como peças de um sistema vivo.',
-      description:
-        'Linguagens, cloud, dados, IA e práticas de qualidade conectadas numa mesma malha operacional.',
-    },
-    skillGroups: [
+    nodes: [
       {
-        title: 'Linguagens & Frameworks',
-        description: 'Ferramentas de construção para backends, integrações e aplicações críticas.',
+        id: 'about',
+        label: 'SOBRE',
+        short: 'Origem, lideranca e IA aplicada',
+        position: [-2.75, 1.18, -0.65],
+        mobilePosition: [-2.1, 1.35, 0],
+        color: '#00FFD1',
+      },
+      {
+        id: 'experience',
+        label: 'EXPERIENCIA',
+        short: 'Carreira em formato git log',
+        position: [2.95, 1.05, -0.85],
+        mobilePosition: [2.1, 1.15, 0],
+        color: '#7B61FF',
+      },
+      {
+        id: 'skills',
+        label: 'SKILLS',
+        short: 'Stack organizada como malha operacional',
+        position: [-3.05, -1.18, 0.75],
+        mobilePosition: [-2.15, -1.15, 0],
+        color: '#3CF0B6',
+      },
+      {
+        id: 'projects',
+        label: 'PROJETOS',
+        short: 'Mapas reais de integracao em producao',
+        position: [3.1, -0.98, 0.92],
+        mobilePosition: [2.15, -1.0, 0],
+        color: '#FF6B35',
+      },
+      {
+        id: 'contact',
+        label: 'CONTATO',
+        short: 'Transmita uma mensagem',
+        position: [0, -2.08, 1.24],
+        mobilePosition: [0, -2.25, 0],
+        color: '#00FFD1',
+      },
+    ],
+  },
+  about: {
+    id: 'about',
+    title: 'Sobre',
+    eyebrow: 'Contexto',
+    blocks: [
+      {
+        type: 'display',
+        content:
+          'Nasci em Formosa, GO em 2000.\nComecei vencendo olimpiadas de programacao.\nHoje lidero sistemas que conectam continentes.',
+      },
+      {
+        type: 'body',
+        content:
+          'Sou Tech Lead na Integra.do, onde construo e lidero arquiteturas que integram alguns dos maiores sistemas da America Latina. Mais de 40 projetos entregues conectando ERPs, e-commerces e gateways de pagamento, de startups a operacoes varejistas com presenca no Brasil e no Paraguai.',
+      },
+      {
+        type: 'accent',
+        content: 'Minha fronteira atual: IA aplicada.\nRAG. Fine-Tuning. Agentes inteligentes. MCP Protocol.',
+      },
+    ],
+    stats: [
+      { value: 40, prefix: '+', suffix: ' projetos', label: 'Projetos entregues' },
+      { value: 4, prefix: '+', suffix: ' anos', label: 'Em integracoes e produto' },
+      { value: 2, prefix: '', suffix: ' paises', label: 'Brasil e Paraguai' },
+      { value: 99, prefix: '', suffix: '+ fluxos', label: 'Sincronizacoes ativas' },
+    ],
+  },
+  experience: {
+    id: 'experience',
+    title: 'Experiencia',
+    eyebrow: 'Terminal de carreira',
+    terminalCommand: '> git log --career --author="Pedro Dias" --format=full',
+    downloadCommand: '> curl -O pedro-dias-cv.pdf [ENTER]',
+    log: `commit a4f2e91 (HEAD -> main)\nAuthor: Pedro Dias <pedroid199@gmail.com>\nDate:   Oct 2024 - Present\n\n    feat: promoted to Tech Lead @ Integra.do\n\n    - Defined microservices architecture for complex integrations\n    - Implemented AI solutions: RAG, Fine-Tuning, MCP Agents\n    - Led cloud infrastructure on AWS, Tencent Cloud, Docker, Kubernetes\n    - Scaled team delivering enterprise-grade integration systems\n\ncommit 3b8c204\nDate:   Apr 2024 - Oct 2024\n\n    feat: Product Manager @ Integra.do\n\n    - Owned strategic roadmap and backlog prioritization\n    - Managed KPIs and stakeholder alignment (tech + executive)\n    - Coordinated delivery for major enterprise clients\n\ncommit 91d7a33\nDate:   Apr 2023 - Mar 2024\n\n    feat: Product Owner @ Integra.do\n\n    - Backlog management with SCRUM + XP\n    - Translated business requirements into technical specs\n\ncommit 2e5f801\nDate:   Apr 2022 - Mar 2023\n\n    feat: Software Engineer @ Integra.do\n\n    - Built REST API and Webhook integrations\n    - Developed microservices: Node.js, Python, Spring Boot\n    - Delivered 40+ integration projects\n\ncommit 8a1c390\nDate:   Mar 2022 - Apr 2022\n\n    feat: Software Engineer @ Money Cloud\n\n    - Backend development and financial systems integration\n\ncommit 0d4b271\nDate:   Sep 2021 - Mar 2022\n\n    feat: Junior Software Engineer @ Cartorio Colorado\n\n    - Co-built Brazil's first fully online wedding platform\n\n> ¦`,
+  },
+  skills: {
+    id: 'skills',
+    title: 'Skills',
+    eyebrow: 'Malha operacional',
+    description: 'Uma malha de competencias onde engenharia, cloud, IA e processos operam como um unico sistema.',
+    groups: [
+      {
+        title: 'Engenharia central',
+        color: '#00FFD1',
         items: [
-          { name: 'Node.js', icon: Braces },
-          { name: 'Python', icon: FlaskConical },
-          { name: 'Spring Boot', icon: ServerCog },
-          { name: 'Laravel', icon: LayoutPanelTop },
+          { name: 'Node.js', icon: Code2, level: 'Especialista', description: 'Backends de alta cadencia, integracoes REST e automacoes de negocio.' },
+          { name: 'Python', icon: FlaskConical, level: 'Avancado', description: 'Servicos, scripts de integracao e experimentos de IA aplicada.' },
+          { name: 'Spring Boot', icon: ServerCog, level: 'Avancado', description: 'Microsservicos enterprise com contratos bem definidos e observabilidade.' },
+          { name: 'Laravel', icon: LayoutPanelTop, level: 'Intermediario', description: 'Aplicacoes web e APIs orientadas a produtividade.' },
         ],
       },
       {
         title: 'Cloud & Infra',
-        description: 'Base operacional para escalar integrações e serviços distribuídos.',
+        color: '#7B61FF',
         items: [
-          { name: 'AWS', icon: CloudCog },
-          { name: 'Tencent Cloud', icon: Globe2 },
-          { name: 'Docker', icon: Boxes },
-          { name: 'Kubernetes', icon: MonitorCog },
+          { name: 'AWS', icon: CloudCog, level: 'Avancado', description: 'Arquiteturas em nuvem, servicos gerenciados e pipelines de deploy.' },
+          { name: 'Tencent Cloud', icon: Globe2, level: 'Avancado', description: 'Operacao em nuvem orientada a integracoes de producao na Integra.do.' },
+          { name: 'Docker', icon: Boxes, level: 'Avancado', description: 'Empacotamento padrao e previsivel para servicos distribuidos.' },
+          { name: 'Kubernetes', icon: MonitorCog, level: 'Intermediario/Avancado', description: 'Orquestracao de workloads criticos com foco em estabilidade.' },
+        ],
+      },
+      {
+        title: 'IA aplicada',
+        color: '#FF6B35',
+        items: [
+          { name: 'RAG', icon: BrainCircuit, level: 'Avancado', description: 'Sistemas que consultam contexto e respondem com grounding operacional.' },
+          { name: 'Fine-Tuning', icon: Wrench, level: 'Avancado', description: 'Ajuste de comportamento de modelos para necessidades especificas.' },
+          { name: 'MCP Protocol', icon: Cable, level: 'Avancado', description: 'Integracao entre agentes, ferramentas e contexto operacional.' },
+          { name: 'AI Agents', icon: Bot, level: 'Avancado', description: 'Fluxos autonomos com memoria, ferramentas e tomada de decisao controlada.' },
         ],
       },
       {
         title: 'Dados',
-        description: 'Estruturação, persistência e leitura de dados para fluxo confiável.',
+        color: '#E8F0FF',
         items: [
-          { name: 'MongoDB', icon: Database },
-          { name: 'SQL', icon: Database },
+          { name: 'MongoDB', icon: Database, level: 'Avancado', description: 'Modelagem de dados flexivel para integracoes e sincronizacoes.' },
+          { name: 'SQL', icon: Database, level: 'Avancado', description: 'Consultas, conciliacao e integridade em fluxos transacionais.' },
         ],
       },
       {
-        title: 'IA Aplicada',
-        description: 'Sistemas que consultam contexto, aprendem melhor e agem com autonomia controlada.',
+        title: 'Processos',
+        color: '#56D364',
         items: [
-          { name: 'RAG', icon: BrainCircuit },
-          { name: 'Fine-Tuning', icon: Wrench },
-          { name: 'MCP Protocol', icon: Cable },
-          { name: 'Agentes Inteligentes', icon: Bot },
-        ],
-      },
-      {
-        title: 'Metodologia',
-        description: 'Coordenação entre velocidade, previsibilidade e evolução técnica.',
-        items: [
-          { name: 'SCRUM', icon: Workflow },
-          { name: 'XP', icon: BadgeCheck },
-          { name: 'Microsserviços', icon: Building2 },
-          { name: 'REST APIs', icon: Activity },
-          { name: 'Webhooks', icon: Cable },
-        ],
-      },
-      {
-        title: 'Qualidade',
-        description: 'Confiabilidade operacional e cuidado com observabilidade.',
-        items: [
-          { name: 'Testes Automatizados', icon: TestTube2 },
-          { name: 'Monitoramento', icon: ShieldCheck },
+          { name: 'SCRUM', icon: Activity, level: 'Avancado', description: 'Ritmo de entrega com previsibilidade e feedback continuo.' },
+          { name: 'XP', icon: Rocket, level: 'Avancado', description: 'Qualidade tecnica, iteracao curta e colaboracao forte com produto.' },
+          { name: 'REST APIs', icon: ArrowRightLeft, level: 'Especialista', description: 'Contratos claros, resiliencia e escalabilidade para ecossistemas distribuidos.' },
+          { name: 'Webhooks', icon: RadioTower, level: 'Especialista', description: 'Eventos em tempo real para sincronizacao de plataformas.' },
+          { name: 'Microsservicos', icon: Network, level: 'Avancado', description: 'Separacao de responsabilidades e operacao modular.' },
         ],
       },
     ],
-    highlights: {
-      eyebrow: 'Realizações',
-      title: 'Marcos que conectam ambição técnica e entrega concreta.',
-      description:
-        'Conquistas acadêmicas, integrações de alto impacto e projetos executados com velocidade e responsabilidade.',
-      items: [
-        {
-          icon: Trophy,
-          title: '1º lugar — OBI',
-          description: 'Categoria Programação Sênior | IFG Campus Formosa.',
-        },
-        {
-          icon: GraduationCap,
-          title: 'Graduado com Louvor',
-          description: 'Análise e Desenvolvimento de Sistemas — IFG, 2021.',
-        },
-        {
-          icon: ShoppingCart,
-          title: 'Maior rede de supermercados sul-americana',
-          description: 'Integrações com Facebook e iFood gerenciadas com sucesso.',
-        },
-        {
-          icon: Zap,
-          title: 'Zé Delivery + Ambev',
-          description: 'Projeto piloto de integração entregue em tempo recorde.',
-        },
-        {
-          icon: Store,
-          title: 'Monalisa Shopping — Paraguai',
-          description: 'Integração e-commerce + ERP para um dos maiores shoppings do Paraguai.',
-        },
-        {
-          icon: Rocket,
-          title: '+40 projetos de integração',
-          description: 'Brasil e exterior, conectando ERPs, e-commerces e gateways de pagamento.',
-        },
-      ],
-    },
-    contact: {
-      eyebrow: 'Contato',
-      title: 'Vamos construir algo extraordinário juntos.',
-      description:
-        'Se a sua operação precisa integrar melhor, escalar com clareza ou transformar IA em produto útil, podemos conversar.',
-      emailConfigNote: 'Formulário preparado para EmailJS. Basta preencher as variáveis de ambiente para habilitar o envio.',
-      socialLinks: [
-        {
-          label: 'LinkedIn',
-          value: 'pedro-dias-019932198',
-          href: 'https://www.linkedin.com/in/pedro-dias-019932198/',
-          icon: Globe2,
-        },
-        {
-          label: 'Email',
-          value: 'pedroid199@gmail.com',
-          href: 'mailto:pedroid199@gmail.com',
-          icon: Rocket,
-        },
-        {
-          label: 'GitHub',
-          value: 'github.com/Psherman42000',
-          href: 'https://github.com/Psherman42000',
-          icon: Code2,
-        },
-      ],
-    },
-    footer: {
-      terminal: '> building the future, one integration at a time_',
-      signature: 'Pedro Dias - Tech Lead • Software Engineer • AI & Integration Specialist',
-    },
   },
-  en: {
-    localeLabel: 'EN',
-    nav: [
-      { label: 'About', href: '#sobre' },
-      { label: 'Experience', href: '#experiencia' },
-      { label: 'Skills', href: '#skills' },
-      { label: 'Highlights', href: '#realizacoes' },
-      { label: 'Contact', href: '#contato' },
-    ],
-    localeToggleLabel: 'Language',
-    dividers: {
-      about: 'Origin',
-      experience: 'Journey',
-      skills: 'Stack',
-      highlights: 'Impact',
-      contact: 'Contact',
-    },
-    cv: {
-      label: 'Download CV',
-      file: '/pedro-dias-cv-2026.pdf',
-    },
-    hero: {
-      eyebrow: '',
-      name: 'Pedro Dias',
-      roles: ['Tech Lead', 'Software Engineer', 'AI & Integration Specialist', 'Builder of scalable systems'],
-      summary:
-        'Leading mission-critical integrations, scalable platforms, and applied AI experiences for businesses that need to operate with clarity, speed, and intelligence.',
-      primaryCta: { label: 'See my story', href: '#sobre' },
-      secondaryCta: { label: 'Get in touch', href: '#contato' },
-      scrollLabel: 'scroll',
-      commandCenterTitle: 'Cockpit Overview',
-      commandCenter: [
-        { label: 'Origin', value: 'Brasilia, DF' },
-        { label: 'Current focus', value: 'Integrations + Applied AI' },
-        { label: 'Scale', value: '+40 projects' },
-      ],
-    },
-    about: {
-      eyebrow: 'About',
-      title: 'Solid architecture, mission-critical integrations, and applied AI with real business impact.',
-      description: 'A trajectory built across competition, product, engineering, and technical leadership.',
-      paragraphs: [
-        'I am Pedro Dias, born in 2000 in Formosa, GO. I started programming early, winning the Brazilian Informatics Olympiad, and I have not stopped building meaningful things since then.',
-        'Today I work as a Tech Lead at Integra.do, where I lead teams and integration architectures connecting some of the largest systems in Latin America. I have already managed more than 40 projects linking ERPs, e-commerce platforms, and payment gateways, from startups to major South American retail networks.',
-        'My passion lives at the frontier between solid software architecture and applied artificial intelligence. I work with RAG, model fine-tuning, intelligent agents, and the MCP protocol, building systems that do not just integrate, but think.',
-      ],
-      panel: {
-        title: 'Mission Control',
-        subtitle: 'A quick overview of the field I am operating in today.',
-        items: [
-          { label: 'Tech Lead', value: 'Integra.do' },
-          { label: 'Specialty', value: 'High-criticality integrations' },
-          { label: 'Horizon', value: 'AWS, Tencent Cloud, AI agents, RAG, MCP' },
-          { label: 'Region', value: 'Brazil + Latin America' },
-        ],
-        badges: ['Software Architecture', 'Microservices', 'AI Productization', 'Multi-platform Operations'],
-      },
-      stats: [
-        {
-          icon: Rocket,
-          value: 40,
-          prefix: '+',
-          suffix: ' projects',
-          label: 'Projects delivered across ERPs, e-commerce platforms, and payment systems.',
-        },
-        {
-          icon: Globe2,
-          value: 2,
-          prefix: '',
-          suffix: ' regions',
-          label: 'Brazil and Latin America in real operational contexts.',
-        },
-        {
-          icon: BrainCircuit,
-          value: 4,
-          prefix: '',
-          suffix: ' AI fronts',
-          label: 'RAG, Fine-Tuning, MCP Protocol, and intelligent agents.',
-        },
-        {
-          icon: CloudCog,
-          value: 2,
-          prefix: '',
-          suffix: ' clouds',
-          label: 'AWS and Tencent Cloud applied to resilient integration platforms.',
-        },
-      ],
-    },
-    experience: {
-      eyebrow: 'Experience',
-      title: 'From hands-on engineering to leading teams and scalable systems.',
-      description:
-        'A timeline centered on platform integrations, product thinking, and growth into technical leadership.',
-      items: [
-        {
-          period: '2024 - Present',
-          role: 'Tech Lead',
-          company: 'Integra.do',
-          description:
-            'Team leadership, microservice architecture, AWS and Tencent Cloud environments, Docker, Kubernetes, and initiatives with RAG, Fine-Tuning, and AI agents.',
-          tech: ['AWS', 'Tencent Cloud', 'Docker', 'Kubernetes', 'RAG', 'AI Agents'],
-        },
-        {
-          period: '2024',
-          role: 'Product Manager',
-          company: 'Integra.do',
-          description:
-            'Strategic roadmap ownership, KPI management, and continuous alignment between business needs and engineering execution.',
-          tech: ['KPIs', 'Roadmap', 'Stakeholders', 'Product'],
-        },
-        {
-          period: '2023 - 2024',
-          role: 'Product Owner',
-          company: 'Integra.do',
-          description:
-            'Working with SCRUM + XP, backlog, sprints, and technical specifications for teams building robust integrations.',
-          tech: ['SCRUM', 'XP', 'Backlog', 'Sprints'],
-        },
-        {
-          period: '2022 - 2023',
-          role: 'Software Engineer',
-          company: 'Integra.do',
-          description:
-            'Built REST APIs, Webhooks, and microservices with Node.js, Python, and Spring Boot, delivering more than 40 integrations.',
-          tech: ['Node.js', 'Python', 'Spring Boot', 'REST APIs', 'Webhooks'],
-        },
-        {
-          period: '2022',
-          role: 'Software Engineer',
-          company: 'Money Cloud',
-          description: 'Backend development and integration work for financial systems in sensitive operational environments.',
-          tech: ['Backend', 'Finance', 'Integration'],
-        },
-        {
-          period: '2021 - 2022',
-          role: 'Junior Software Engineer',
-          company: 'Cartório Colorado',
-          description: 'Worked on Brazil’s first online marriage platform, connecting technology with public service.',
-          tech: ['Digital Product', 'Backend', 'Platform'],
-        },
-      ],
-    },
-    skillsMeta: {
-      eyebrow: 'Skills',
-      title: 'Capabilities arranged like parts of a living system.',
-      description:
-        'Languages, cloud, data, AI, and quality practices connected inside the same operational mesh.',
-    },
-    skillGroups: [
+  projects: {
+    id: 'projects',
+    title: 'Projetos',
+    eyebrow: 'Mapa de integracao',
+    description: 'Cada projeto e apresentado como topologia real de fluxo, mostrando como catalogo, pedidos, faturamento e dados cruzam sistemas.',
+    cards: [
       {
-        title: 'Languages & Frameworks',
-        description: 'Core building blocks for backends, integrations, and critical applications.',
-        items: [
-          { name: 'Node.js', icon: Braces },
-          { name: 'Python', icon: FlaskConical },
-          { name: 'Spring Boot', icon: ServerCog },
-          { name: 'Laravel', icon: LayoutPanelTop },
+        id: 'volt',
+        name: 'Volt Sports + Times do Brasil',
+        badge: 'Multi-tenant | 14+ fornecedores ativos',
+        size: 'full',
+        traffic: '~18k transacoes/dia',
+        summary:
+          'Integracao de catalogo, pedidos e faturamento entre Volt Sports, camada de integracao e multiplos fornecedores do futebol brasileiro.',
+        environment: 'Producao',
+        metrics: ['Clientes ativos: Volt Sports + 14 fornecedores', 'Fluxos: Catalogo · Pedidos · Faturamento', 'Stack: Node.js · REST APIs · Webhooks · MongoDB'],
+        legend: [
+          { label: 'Catalogo', color: '#00FFD1' },
+          { label: 'Pedidos', color: '#7B61FF' },
+          { label: 'Faturamento', color: '#FF6B35' },
+        ],
+        nodes: [
+          { id: 'volt', label: 'Volt Sports E-commerce', x: 360, y: 74, kind: 'primary' },
+          { id: 'hub', label: 'Integration Layer - Integra.do', x: 360, y: 190, kind: 'hub' },
+          { id: 'america', label: 'America FC', x: 96, y: 334, kind: 'partner' },
+          { id: 'avai', label: 'Avai', x: 178, y: 372, kind: 'partner' },
+          { id: 'bahia', label: 'Bahia', x: 264, y: 404, kind: 'partner' },
+          { id: 'botafogo', label: 'Botafogo', x: 360, y: 418, kind: 'partner' },
+          { id: 'cbv', label: 'CBV', x: 454, y: 404, kind: 'partner' },
+          { id: 'coritiba', label: 'Coritiba', x: 540, y: 372, kind: 'partner' },
+          { id: 'criciuma', label: 'Criciuma', x: 618, y: 334, kind: 'partner' },
+          { id: 'figueirense', label: 'Figueirense', x: 182, y: 448, kind: 'partner' },
+          { id: 'fortaleza', label: 'Fortaleza', x: 278, y: 486, kind: 'partner' },
+          { id: 'joinville', label: 'Joinville', x: 360, y: 506, kind: 'partner' },
+          { id: 'remo', label: 'Remo', x: 444, y: 486, kind: 'partner' },
+          { id: 'vila', label: 'Vila Nova', x: 534, y: 448, kind: 'partner' },
+          { id: 'vitoria', label: 'Vitoria', x: 616, y: 408, kind: 'partner' },
+          { id: 'lifestyle', label: 'Volt Lifestyle', x: 702, y: 360, kind: 'partner' },
+        ],
+        edges: [
+          { from: 'volt', to: 'hub', type: 'catalog' },
+          { from: 'volt', to: 'hub', type: 'orders', offset: -12 },
+          { from: 'volt', to: 'hub', type: 'billing', offset: 12 },
+          { from: 'hub', to: 'america', type: 'catalog' },
+          { from: 'hub', to: 'avai', type: 'catalog' },
+          { from: 'hub', to: 'bahia', type: 'orders' },
+          { from: 'hub', to: 'botafogo', type: 'orders' },
+          { from: 'hub', to: 'cbv', type: 'billing' },
+          { from: 'hub', to: 'coritiba', type: 'billing' },
+          { from: 'hub', to: 'criciuma', type: 'catalog' },
+          { from: 'hub', to: 'figueirense', type: 'orders' },
+          { from: 'hub', to: 'fortaleza', type: 'catalog' },
+          { from: 'hub', to: 'joinville', type: 'orders' },
+          { from: 'hub', to: 'remo', type: 'billing' },
+          { from: 'hub', to: 'vila', type: 'catalog' },
+          { from: 'hub', to: 'vitoria', type: 'orders' },
+          { from: 'hub', to: 'lifestyle', type: 'billing' },
         ],
       },
       {
-        title: 'Cloud & Infra',
-        description: 'Operational foundations for scaling integrations and distributed services.',
-        items: [
-          { name: 'AWS', icon: CloudCog },
-          { name: 'Tencent Cloud', icon: Globe2 },
-          { name: 'Docker', icon: Boxes },
-          { name: 'Kubernetes', icon: MonitorCog },
+        id: 'retail',
+        name: 'Maior rede de supermercados sul-americana',
+        badge: 'Maior rede varejista da America do Sul',
+        summary: 'Pedidos, estoque e campanhas sincronizados entre canais de venda e ERP interno.',
+        nodes: [
+          { id: 'facebook', label: 'Facebook Ads', x: 80, y: 110, kind: 'partner' },
+          { id: 'api', label: 'API Integra.do', x: 220, y: 170, kind: 'hub' },
+          { id: 'erp', label: 'ERP Interno', x: 360, y: 110, kind: 'primary' },
+          { id: 'ifood', label: 'iFood', x: 360, y: 250, kind: 'partner' },
+        ],
+        edges: [
+          { from: 'facebook', to: 'api', type: 'orders' },
+          { from: 'api', to: 'erp', type: 'catalog' },
+          { from: 'ifood', to: 'api', type: 'orders' },
+          { from: 'api', to: 'erp', type: 'billing' },
         ],
       },
       {
-        title: 'Data',
-        description: 'Structuring, persistence, and reliable data flow.',
-        items: [
-          { name: 'MongoDB', icon: Database },
-          { name: 'SQL', icon: Database },
+        id: 'ambev',
+        name: 'Ze Delivery + Ambev',
+        badge: 'Entregue em tempo recorde',
+        summary: 'Entrega acelerada de uma ponte operacional entre plataformas de alto volume.',
+        nodes: [
+          { id: 'ze', label: 'Ze Delivery Platform', x: 90, y: 150, kind: 'partner' },
+          { id: 'bridge', label: 'API Integration', x: 220, y: 150, kind: 'hub' },
+          { id: 'ambev', label: 'Ambev Systems', x: 350, y: 150, kind: 'primary' },
+        ],
+        edges: [
+          { from: 'ze', to: 'bridge', type: 'orders' },
+          { from: 'bridge', to: 'ambev', type: 'catalog' },
         ],
       },
       {
-        title: 'Applied AI',
-        description: 'Systems that retrieve context, learn better, and act with controlled autonomy.',
-        items: [
-          { name: 'RAG', icon: BrainCircuit },
-          { name: 'Fine-Tuning', icon: Wrench },
-          { name: 'MCP Protocol', icon: Cable },
-          { name: 'Intelligent Agents', icon: Bot },
+        id: 'monalisa',
+        name: 'Monalisa Shopping - Paraguai',
+        badge: 'Operacao internacional',
+        summary: 'Conexao entre e-commerce e ERP para operacao internacional.',
+        nodes: [
+          { id: 'shop', label: 'E-commerce', x: 92, y: 150, kind: 'primary' },
+          { id: 'layer', label: 'Integration Layer', x: 220, y: 150, kind: 'hub' },
+          { id: 'erp', label: 'ERP', x: 350, y: 150, kind: 'partner' },
+        ],
+        edges: [
+          { from: 'shop', to: 'layer', type: 'catalog' },
+          { from: 'layer', to: 'erp', type: 'orders' },
         ],
       },
       {
-        title: 'Methodology',
-        description: 'Balancing speed, predictability, and technical evolution.',
-        items: [
-          { name: 'SCRUM', icon: Workflow },
-          { name: 'XP', icon: BadgeCheck },
-          { name: 'Microservices', icon: Building2 },
-          { name: 'REST APIs', icon: Activity },
-          { name: 'Webhooks', icon: Cable },
+        id: 'cartorio',
+        name: 'Cartorio Colorado',
+        badge: 'Primeira plataforma de casamento online do Brasil',
+        summary: 'Base tecnica da primeira plataforma de casamento online do Brasil.',
+        nodes: [
+          { id: 'front', label: 'Frontend', x: 64, y: 148, kind: 'partner' },
+          { id: 'api', label: 'API', x: 176, y: 148, kind: 'hub' },
+          { id: 'db', label: 'Database', x: 288, y: 148, kind: 'primary' },
+          { id: 'systems', label: 'Cartorio Systems', x: 400, y: 148, kind: 'partner' },
         ],
-      },
-      {
-        title: 'Quality',
-        description: 'Operational reliability and care for observability.',
-        items: [
-          { name: 'Automated Tests', icon: TestTube2 },
-          { name: 'Monitoring', icon: ShieldCheck },
+        edges: [
+          { from: 'front', to: 'api', type: 'orders' },
+          { from: 'api', to: 'db', type: 'catalog' },
+          { from: 'db', to: 'systems', type: 'billing' },
         ],
       },
     ],
-    highlights: {
-      eyebrow: 'Highlights',
-      title: 'Milestones that connect technical ambition and concrete delivery.',
-      description:
-        'Academic achievements, high-impact integrations, and projects delivered with speed and responsibility.',
-      items: [
-        {
-          icon: Trophy,
-          title: '1st place - OBI',
-          description: 'Senior Programming Category | IFG Campus Formosa.',
-        },
-        {
-          icon: GraduationCap,
-          title: 'Graduated with Honors',
-          description: 'Systems Analysis and Development - IFG, 2021.',
-        },
-        {
-          icon: ShoppingCart,
-          title: 'Largest South American supermarket chain',
-          description: 'Successfully managed integrations with Facebook and iFood.',
-        },
-        {
-          icon: Zap,
-          title: 'Zé Delivery + Ambev',
-          description: 'Pilot integration project delivered in record time.',
-        },
-        {
-          icon: Store,
-          title: 'Monalisa Shopping - Paraguay',
-          description: 'E-commerce + ERP integration for one of Paraguay’s largest shopping centers.',
-        },
-        {
-          icon: Rocket,
-          title: '+40 integration projects',
-          description: 'Brazil and abroad, connecting ERPs, e-commerce platforms, and payment gateways.',
-        },
-      ],
-    },
-    contact: {
-      eyebrow: 'Contact',
-      title: 'Let’s build something extraordinary together.',
-      description:
-        'If your operation needs better integrations, clearer scale, or AI turned into useful products, we should talk.',
-      emailConfigNote: 'The form is ready for EmailJS. Fill the environment variables to enable sending.',
-      socialLinks: [
-        {
-          label: 'LinkedIn',
-          value: 'pedro-dias-019932198',
-          href: 'https://www.linkedin.com/in/pedro-dias-019932198/',
-          icon: Globe2,
-        },
-        {
-          label: 'Email',
-          value: 'pedroid199@gmail.com',
-          href: 'mailto:pedroid199@gmail.com',
-          icon: Rocket,
-        },
-        {
-          label: 'GitHub',
-          value: 'github.com/Psherman42000',
-          href: 'https://github.com/Psherman42000',
-          icon: Code2,
-        },
-      ],
-    },
-    footer: {
-      terminal: '> building the future, one integration at a time_',
-      signature: 'Pedro Dias - Tech Lead • Software Engineer • AI & Integration Specialist',
-    },
   },
-  es: {
-    localeLabel: 'ES',
-    nav: [
-      { label: 'Sobre mí', href: '#sobre' },
-      { label: 'Experiencia', href: '#experiencia' },
-      { label: 'Skills', href: '#skills' },
-      { label: 'Logros', href: '#realizacoes' },
-      { label: 'Contacto', href: '#contato' },
+  contact: {
+    id: 'contact',
+    title: 'Contato',
+    eyebrow: 'Transmitir mensagem',
+    destination: 'Pedro Dias <pedroid199@gmail.com>',
+    protocol: 'EmailJS/SMTP',
+    phrase: 'Vamos construir algo\nextraordinario.',
+    submit: '> ENVIAR TRANSMISSAO',
+    sending: '> transmitindo...',
+    success: '> mensagem entregue OK',
+    error: '> falha na transmissao',
+    social: [
+      { label: 'LinkedIn', value: 'pedro-dias-019932198', href: 'https://www.linkedin.com/in/pedro-dias-019932198/' },
+      { label: 'Email', value: 'pedroid199@gmail.com', href: 'mailto:pedroid199@gmail.com' },
+      { label: 'GitHub', value: 'github.com/Psherman42000', href: 'https://github.com/Psherman42000' },
     ],
-    localeToggleLabel: 'Idioma',
-    dividers: {
-      about: 'Origen',
-      experience: 'Trayectoria',
-      skills: 'Stack',
-      highlights: 'Impacto',
-      contact: 'Contacto',
-    },
-    cv: {
-      label: 'Descargar CV',
-      file: '/pedro-dias-cv-2026.pdf',
-    },
-    hero: {
-      eyebrow: '',
-      name: 'Pedro Dias',
-      roles: ['Tech Lead', 'Software Engineer', 'Especialista en IA e Integraciones', 'Creador de sistemas escalables'],
-      summary:
-        'Liderando integraciones críticas, plataformas escalables y experiencias de IA aplicada para negocios que necesitan operar con claridad, velocidad e inteligencia.',
-      primaryCta: { label: 'Ver mi historia', href: '#sobre' },
-      secondaryCta: { label: 'Entrar en contacto', href: '#contato' },
-      scrollLabel: 'scroll',
-      commandCenterTitle: 'Visión General',
-      commandCenter: [
-        { label: 'Origen', value: 'Brasilia, DF' },
-        { label: 'Enfoque actual', value: 'Integraciones + IA aplicada' },
-        { label: 'Escala', value: '+40 proyectos' },
-      ],
-    },
-    about: {
-      eyebrow: 'Sobre mí',
-      title: 'Arquitectura sólida, integraciones críticas e IA aplicada con impacto real.',
-      description: 'Una trayectoria construida entre competencia, producto, ingeniería y liderazgo técnico.',
-      paragraphs: [
-        'Soy Pedro Dias, nacido en 2000 en Formosa, GO. Empecé temprano en la programación, ganando las Olimpíadas Brasileñas de Informática, y desde entonces no he dejado de construir cosas que importan.',
-        'Hoy actúo como Tech Lead en Integra.do, donde lidero equipos y arquitecturas de integración entre algunos de los mayores sistemas de América Latina. Ya he gestionado más de 40 proyectos conectando ERPs, e-commerces y gateways de pago, desde startups hasta grandes cadenas minoristas sudamericanas.',
-        'Mi pasión está en la frontera entre una arquitectura de software sólida y la inteligencia artificial aplicada. Trabajo con RAG, fine-tuning de modelos, agentes inteligentes y el protocolo MCP, construyendo sistemas que no solo integran, sino que también piensan.',
-      ],
-      panel: {
-        title: 'Centro de Mando',
-        subtitle: 'Una visión rápida del campo en el que estoy operando hoy.',
-        items: [
-          { label: 'Tech Lead', value: 'Integra.do' },
-          { label: 'Especialidad', value: 'Integraciones de alta criticidad' },
-          { label: 'Horizonte', value: 'AWS, Tencent Cloud, AI agents, RAG, MCP' },
-          { label: 'Región', value: 'Brasil + América Latina' },
-        ],
-        badges: ['Arquitectura de Software', 'Microservicios', 'Productización de IA', 'Operación Multiplataforma'],
-      },
-      stats: [
-        {
-          icon: Rocket,
-          value: 40,
-          prefix: '+',
-          suffix: ' proyectos',
-          label: 'Proyectos entregados conectando ERPs, e-commerces y sistemas de pago.',
-        },
-        {
-          icon: Globe2,
-          value: 2,
-          prefix: '',
-          suffix: ' regiones',
-          label: 'Brasil y América Latina en contextos operativos reales.',
-        },
-        {
-          icon: BrainCircuit,
-          value: 4,
-          prefix: '',
-          suffix: ' frentes de IA',
-          label: 'RAG, Fine-Tuning, MCP Protocol y agentes inteligentes.',
-        },
-        {
-          icon: CloudCog,
-          value: 2,
-          prefix: '',
-          suffix: ' clouds',
-          label: 'AWS y Tencent Cloud aplicados a plataformas e integraciones resilientes.',
-        },
-      ],
-    },
-    experience: {
-      eyebrow: 'Experiencia',
-      title: 'De la ingeniería hands-on al liderazgo de equipos y sistemas escalables.',
-      description:
-        'Una timeline centrada en integraciones de plataformas, visión de producto y evolución hacia el liderazgo técnico.',
-      items: [
-        {
-          period: '2024 - Actualidad',
-          role: 'Tech Lead',
-          company: 'Integra.do',
-          description:
-            'Liderazgo de equipos, arquitectura de microservicios, entornos AWS y Tencent Cloud, Docker, Kubernetes e iniciativas con RAG, Fine-Tuning y agentes de IA.',
-          tech: ['AWS', 'Tencent Cloud', 'Docker', 'Kubernetes', 'RAG', 'AI Agents'],
-        },
-        {
-          period: '2024',
-          role: 'Product Manager',
-          company: 'Integra.do',
-          description:
-            'Roadmap estratégico, gestión de KPIs y alineación continua entre las necesidades del negocio y la ejecución de ingeniería.',
-          tech: ['KPIs', 'Roadmap', 'Stakeholders', 'Producto'],
-        },
-        {
-          period: '2023 - 2024',
-          role: 'Product Owner',
-          company: 'Integra.do',
-          description:
-            'Trabajo con SCRUM + XP, backlog, sprints y especificaciones técnicas para equipos que construyen integraciones robustas.',
-          tech: ['SCRUM', 'XP', 'Backlog', 'Sprints'],
-        },
-        {
-          period: '2022 - 2023',
-          role: 'Software Engineer',
-          company: 'Integra.do',
-          description:
-            'Construcción de REST APIs, Webhooks y microservicios con Node.js, Python y Spring Boot, superando las 40 integraciones entregadas.',
-          tech: ['Node.js', 'Python', 'Spring Boot', 'REST APIs', 'Webhooks'],
-        },
-        {
-          period: '2022',
-          role: 'Software Engineer',
-          company: 'Money Cloud',
-          description: 'Desarrollo backend e integración con sistemas financieros en un contexto operativo sensible.',
-          tech: ['Backend', 'Finanzas', 'Integración'],
-        },
-        {
-          period: '2021 - 2022',
-          role: 'Software Engineer Jr',
-          company: 'Cartório Colorado',
-          description: 'Participación en la primera plataforma de matrimonio online de Brasil, conectando tecnología y servicio público.',
-          tech: ['Producto Digital', 'Backend', 'Plataforma'],
-        },
-      ],
-    },
-    skillsMeta: {
-      eyebrow: 'Skills',
-      title: 'Competencias organizadas como piezas de un sistema vivo.',
-      description:
-        'Lenguajes, cloud, datos, IA y prácticas de calidad conectadas dentro de una misma malla operativa.',
-    },
-    skillGroups: [
-      {
-        title: 'Lenguajes & Frameworks',
-        description: 'Herramientas base para backends, integraciones y aplicaciones críticas.',
-        items: [
-          { name: 'Node.js', icon: Braces },
-          { name: 'Python', icon: FlaskConical },
-          { name: 'Spring Boot', icon: ServerCog },
-          { name: 'Laravel', icon: LayoutPanelTop },
-        ],
-      },
-      {
-        title: 'Cloud & Infra',
-        description: 'Base operativa para escalar integraciones y servicios distribuidos.',
-        items: [
-          { name: 'AWS', icon: CloudCog },
-          { name: 'Tencent Cloud', icon: Globe2 },
-          { name: 'Docker', icon: Boxes },
-          { name: 'Kubernetes', icon: MonitorCog },
-        ],
-      },
-      {
-        title: 'Datos',
-        description: 'Estructuración, persistencia y lectura confiable de datos.',
-        items: [
-          { name: 'MongoDB', icon: Database },
-          { name: 'SQL', icon: Database },
-        ],
-      },
-      {
-        title: 'IA Aplicada',
-        description: 'Sistemas que recuperan contexto, aprenden mejor y actúan con autonomía controlada.',
-        items: [
-          { name: 'RAG', icon: BrainCircuit },
-          { name: 'Fine-Tuning', icon: Wrench },
-          { name: 'MCP Protocol', icon: Cable },
-          { name: 'Agentes Inteligentes', icon: Bot },
-        ],
-      },
-      {
-        title: 'Metodología',
-        description: 'Coordinación entre velocidad, previsibilidad y evolución técnica.',
-        items: [
-          { name: 'SCRUM', icon: Workflow },
-          { name: 'XP', icon: BadgeCheck },
-          { name: 'Microservicios', icon: Building2 },
-          { name: 'REST APIs', icon: Activity },
-          { name: 'Webhooks', icon: Cable },
-        ],
-      },
-      {
-        title: 'Calidad',
-        description: 'Confiabilidad operativa y cuidado con la observabilidad.',
-        items: [
-          { name: 'Pruebas Automatizadas', icon: TestTube2 },
-          { name: 'Monitoreo', icon: ShieldCheck },
-        ],
-      },
-    ],
-    highlights: {
-      eyebrow: 'Logros',
-      title: 'Hitos que conectan ambición técnica y entrega concreta.',
-      description:
-        'Logros académicos, integraciones de alto impacto y proyectos ejecutados con velocidad y responsabilidad.',
-      items: [
-        {
-          icon: Trophy,
-          title: '1er lugar - OBI',
-          description: 'Categoría Programación Senior | IFG Campus Formosa.',
-        },
-        {
-          icon: GraduationCap,
-          title: 'Graduado con Honores',
-          description: 'Análisis y Desarrollo de Sistemas - IFG, 2021.',
-        },
-        {
-          icon: ShoppingCart,
-          title: 'Mayor cadena de supermercados sudamericana',
-          description: 'Integraciones con Facebook e iFood gestionadas con éxito.',
-        },
-        {
-          icon: Zap,
-          title: 'Zé Delivery + Ambev',
-          description: 'Proyecto piloto de integración entregado en tiempo récord.',
-        },
-        {
-          icon: Store,
-          title: 'Monalisa Shopping - Paraguay',
-          description: 'Integración e-commerce + ERP para uno de los mayores shoppings de Paraguay.',
-        },
-        {
-          icon: Rocket,
-          title: '+40 proyectos de integración',
-          description: 'Brasil y exterior, conectando ERPs, e-commerces y gateways de pago.',
-        },
-      ],
-    },
-    contact: {
-      eyebrow: 'Contacto',
-      title: 'Construyamos algo extraordinario juntos.',
-      description:
-        'Si tu operación necesita integrarse mejor, escalar con claridad o convertir IA en un producto útil, conversemos.',
-      emailConfigNote: 'El formulario está listo para EmailJS.',
-      socialLinks: [
-        {
-          label: 'LinkedIn',
-          value: 'pedro-dias-019932198',
-          href: 'https://www.linkedin.com/in/pedro-dias-019932198/',
-          icon: Globe2,
-        },
-        {
-          label: 'Email',
-          value: 'pedroid199@gmail.com',
-          href: 'mailto:pedroid199@gmail.com',
-          icon: Rocket,
-        },
-        {
-          label: 'GitHub',
-          value: 'github.com/Psherman42000',
-          href: 'https://github.com/Psherman42000',
-          icon: Code2,
-        },
-      ],
-    },
-    footer: {
-      terminal: '> building the future, one integration at a time_',
-      signature: 'Pedro Dias - Tech Lead • Ingeniero de Software • Especialista en IA e Integraciones',
-    },
   },
 }
+
+export const portfolioLocales = {
+  pt: ptContent,
+  en: null,
+  es: null,
+}
+
+export function getPortfolioContent(locale = defaultLocale) {
+  return portfolioLocales[locale] ?? portfolioLocales[defaultLocale]
+}
+
+

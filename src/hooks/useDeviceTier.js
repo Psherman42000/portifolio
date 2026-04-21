@@ -1,63 +1,37 @@
 ﻿import { useEffect, useState } from 'react'
 
-function getDeviceProfile() {
+function readTier() {
   if (typeof window === 'undefined') {
-    return {
-      tier: 'medium',
-      particleCount: 1400,
-      dpr: [1, 1.5],
-      shouldRenderHeavyEffects: true,
-      isTouch: false,
-    }
+    return { isMobile: false, isTablet: false, quality: 'high', graphIntensity: 1, dpr: 1.5 }
   }
 
   const width = window.innerWidth
-  const memory = navigator.deviceMemory ?? 4
-  const cores = navigator.hardwareConcurrency ?? 4
-  const isTouch = window.matchMedia('(pointer: coarse)').matches
-
-  const low = width < 480 || memory <= 2 || cores <= 2
-  const medium = width < 1024 || memory <= 4 || cores <= 4 || isTouch
-
-  if (low) {
-    return {
-      tier: 'low',
-      particleCount: 700,
-      dpr: [1, 1.1],
-      shouldRenderHeavyEffects: false,
-      isTouch,
-    }
-  }
-
-  if (medium) {
-    return {
-      tier: 'medium',
-      particleCount: 1300,
-      dpr: [1, 1.4],
-      shouldRenderHeavyEffects: true,
-      isTouch,
-    }
-  }
+  const memory = navigator.deviceMemory ?? 8
+  const cores = navigator.hardwareConcurrency ?? 8
+  const isMobile = width < 768
+  const isTablet = width >= 768 && width < 1024
+  const lowPower = isMobile || memory <= 4 || cores <= 4
+  const mediumPower = isTablet || memory <= 8
 
   return {
-    tier: 'high',
-    particleCount: 2200,
-    dpr: [1, 2],
-    shouldRenderHeavyEffects: true,
-    isTouch,
+    isMobile,
+    isTablet,
+    quality: lowPower ? 'low' : mediumPower ? 'medium' : 'high',
+    graphIntensity: lowPower ? 0.55 : mediumPower ? 0.8 : 1,
+    dpr: lowPower ? 1 : mediumPower ? 1.25 : 1.5,
   }
 }
 
-export function useDeviceTier() {
-  const [profile, setProfile] = useState(getDeviceProfile)
+export default function useDeviceTier() {
+  const [tier, setTier] = useState(readTier)
 
   useEffect(() => {
-    const handleResize = () => setProfile(getDeviceProfile())
-    handleResize()
-    window.addEventListener('resize', handleResize)
+    const onResize = () => setTier(readTier())
+    window.addEventListener('resize', onResize)
 
-    return () => window.removeEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', onResize)
   }, [])
 
-  return profile
+  return tier
 }
+

@@ -1,71 +1,188 @@
-import { useEffect, useMemo, useState } from 'react'
-import { defaultLocale, portfolioData, supportedLocales } from './data'
-import Navbar from './components/ui/Navbar'
-import CustomCursor from './components/ui/CustomCursor'
-import AnimatedDivider from './components/ui/AnimatedDivider'
-import HeroSection from './components/sections/HeroSection'
-import AboutSection from './components/sections/AboutSection'
-import ExperienceSection from './components/sections/ExperienceSection'
-import SkillsSection from './components/sections/SkillsSection'
-import HighlightsSection from './components/sections/HighlightsSection'
-import ContactSection from './components/sections/ContactSection'
-import FooterSection from './components/sections/FooterSection'
+﻿import { useEffect, useMemo, useState, lazy, Suspense } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { getPortfolioContent, rootNodeIds } from './data'
+import useDeviceTier from './hooks/useDeviceTier'
+import useGlitchCycle from './hooks/useGlitchCycle'
+import { usePrefersReducedMotion } from './hooks/usePrefersReducedMotion'
+import usePanelStack from './hooks/usePanelStack'
+import LoadingScreen from './components/system/LoadingScreen'
+import Navbar from './components/system/Navbar'
+import CustomCursor from './components/system/CustomCursor'
+import PanelStack from './components/system/PanelStack'
 
-function getInitialLocale() {
-  if (typeof window === 'undefined') {
-    return defaultLocale
+const BackgroundShader = lazy(() => import('./components/3d/BackgroundShader'))
+const GraphScene = lazy(() => import('./components/3d/GraphScene'))
+const AboutPanel = lazy(() => import('./components/sections/AboutPanel'))
+const ExperienceTerminalPanel = lazy(() => import('./components/sections/ExperienceTerminalPanel'))
+const SkillsHexPanel = lazy(() => import('./components/sections/SkillsHexPanel'))
+const ProjectsPanel = lazy(() => import('./components/sections/ProjectsPanel'))
+const ProjectDetailPanel = lazy(() => import('./components/sections/ProjectDetailPanel'))
+const ContactPanel = lazy(() => import('./components/sections/ContactPanel'))
+
+function createRootPanel(id, content) {
+  const source = content[id]
+  return {
+    key: `${id}-root`,
+    type: id,
+    rootNodeId: id,
+    title: source.title,
+    eyebrow: source.eyebrow,
+    payload: source,
   }
+}
 
-  const saved = window.localStorage.getItem('portfolio-locale')
-  if (saved && supportedLocales.includes(saved)) {
-    return saved
-  }
-
-  return defaultLocale
+function PanelFallback() {
+  return <div className="panel-loading">carregando...</div>
 }
 
 export default function App() {
-  const [locale, setLocale] = useState(getInitialLocale)
-  const content = useMemo(() => portfolioData[locale] ?? portfolioData[defaultLocale], [locale])
+  const content = useMemo(() => getPortfolioContent('pt'), [])
+  const [loadingDone, setLoadingDone] = useState(false)
+  const { isMobile, quality, graphIntensity, dpr } = useDeviceTier()
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const { glitchOn } = useGlitchCycle()
+  const { panelStack, rootPanel, openRootPanel, pushPanel, popPanel, clearPanels } = usePanelStack()
+
+  const activeNodeId = rootPanel?.rootNodeId ?? null
+  const isDimmed = panelStack.length > 0 && !isMobile
 
   useEffect(() => {
-    window.localStorage.setItem('portfolio-locale', locale)
-    document.documentElement.lang = locale === 'en' ? 'en' : locale === 'es' ? 'es' : 'pt-BR'
-  }, [locale])
+    document.documentElement.lang = 'pt-BR'
+    document.title = content.meta.title
+    const description = document.querySelector('meta[name="description"]')
+    if (description) {
+      description.setAttribute('content', content.meta.description)
+    }
+  }, [content.meta.description, content.meta.title])
+
+  const handleOpenNode = (nodeId) => {
+    if (!rootNodeIds.includes(nodeId)) return
+    openRootPanel(createRootPanel(nodeId, content))
+  }
+
+  const stackPath = ['mapa', ...panelStack.map((panel) => panel.title)].join(' / ')
+
+  const renderPanel = (panel) => {
+    if (panel.type === 'about') {
+      return (
+        <Suspense fallback={<PanelFallback />}>
+          <AboutPanel section={panel.payload} />
+        </Suspense>
+      )
+    }
+
+    if (panel.type === 'experience') {
+      return (
+        <Suspense fallback={<PanelFallback />}>
+          <ExperienceTerminalPanel section={panel.payload} cv={content.cv} />
+        </Suspense>
+      )
+    }
+
+    if (panel.type === 'skills') {
+      return (
+        <Suspense fallback={<PanelFallback />}>
+          <SkillsHexPanel section={panel.payload} />
+        </Suspense>
+      )
+    }
+
+    if (panel.type === 'projects') {
+      return (
+        <Suspense fallback={<PanelFallback />}>
+          <ProjectsPanel
+            section={panel.payload}
+            isMobile={isMobile}
+            onOpenProject={(project) =>
+              pushPanel({
+                key: `project-${project.id}`,
+                type: 'project-detail',
+                rootNodeId: 'projects',
+                title: project.name,
+                eyebrow: 'Projeto em producao',
+                payload: project,
+              })
+            }
+          />
+        </Suspense>
+      )
+    }
+
+    if (panel.type === 'project-detail') {
+      return (
+        <Suspense fallback={<PanelFallback />}>
+          <ProjectDetailPanel project={panel.payload} isMobile={isMobile} />
+        </Suspense>
+      )
+    }
+
+    if (panel.type === 'contact') {
+      return (
+        <Suspense fallback={<PanelFallback />}>
+          <ContactPanel section={panel.payload} />
+        </Suspense>
+      )
+    }
+
+    return null
+  }
 
   return (
-    <div className="relative min-h-screen bg-[var(--bg)] text-[var(--text)]">
+    <div className="app-shell">
+      <AnimatePresence>{!loadingDone ? <LoadingScreen lines={content.ui.loading} onFinish={() => setLoadingDone(true)} /> : null}</AnimatePresence>
       <CustomCursor />
 
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="grid-overlay absolute inset-0 opacity-30" />
-        <div className="absolute left-1/2 top-[-12rem] h-[42rem] w-[42rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(0,255,209,0.12),transparent_68%)] blur-3xl" />
-        <div className="absolute right-[-8rem] top-[10rem] h-[24rem] w-[24rem] rounded-full bg-[radial-gradient(circle,rgba(123,97,255,0.22),transparent_70%)] blur-3xl" />
-      </div>
+      <Suspense fallback={null}>
+        <BackgroundShader quality={quality} />
+      </Suspense>
 
-      <Navbar
-        nav={content.nav}
-        cv={content.cv}
-        locale={locale}
-        localeLabel={content.localeToggleLabel}
-        onLocaleChange={setLocale}
-      />
+      <div className={`scanlines ${panelStack.length ? 'scanlines-active' : ''}`} aria-hidden="true" />
+      <div className="grid-overlay-system" aria-hidden="true" />
 
-      <main className="relative z-10">
-        <HeroSection hero={content.hero} />
-        <AnimatedDivider label={content.dividers.about} />
-        <AboutSection about={content.about} />
-        <AnimatedDivider label={content.dividers.experience} />
-        <ExperienceSection experience={content.experience} />
-        <AnimatedDivider label={content.dividers.skills} />
-        <SkillsSection skills={content.skillGroups} sectionMeta={content.skillsMeta} />
-        <AnimatedDivider label={content.dividers.highlights} />
-        <HighlightsSection highlights={content.highlights} />
-        <AnimatedDivider label={content.dividers.contact} />
-        <ContactSection contact={content.contact} locale={locale} />
+      <Navbar nodes={content.graph.nodes} cv={content.cv} onOpenNode={handleOpenNode} stackPath={stackPath} isDimmed={isDimmed} />
+
+      <main className="system-stage">
+        <div className={`graph-stage ${isMobile && panelStack.length ? 'graph-stage-hidden' : ''}`}>
+          <Suspense fallback={null}>
+            <GraphScene
+              graph={content.graph}
+              activeNodeId={activeNodeId}
+              onOpenNode={handleOpenNode}
+              graphIntensity={prefersReducedMotion ? 0.35 : graphIntensity}
+              dpr={dpr}
+              isMobile={isMobile}
+              glitchOn={glitchOn && !prefersReducedMotion}
+            />
+          </Suspense>
+
+          <motion.div
+            className={`graph-overlay ${isDimmed ? 'graph-overlay-dimmed' : ''}`}
+            animate={{ opacity: isDimmed ? 1 : 0 }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+          />
+
+          <div className="graph-hud">
+            <div className="graph-hud__copy">
+              <span className="graph-hud__label">{content.ui.mapLabel}</span>
+              <h1 className={`graph-hud__title ${glitchOn ? 'graph-hud__title-glitch' : ''}`}>Pedro Dias</h1>
+              <p className="graph-hud__description">{isMobile ? content.ui.tapHint : content.ui.hoverHint}</p>
+            </div>
+            {panelStack.length ? (
+              <button type="button" className="map-reset-button map-reset-button-floating" onClick={clearPanels} data-interactive="true">
+                ← {content.ui.backToMap}
+              </button>
+            ) : null}
+          </div>
+        </div>
+
+        <PanelStack panels={panelStack} isMobile={isMobile} onClosePanel={popPanel} renderPanel={renderPanel} />
       </main>
 
-      <FooterSection footer={content.footer} />
+      <footer className={`system-footer ${panelStack.length ? 'system-footer-muted' : ''}`}>
+        <p>{content.ui.footerCommand}</p>
+        <span>{content.ui.footerNote}</span>
+      </footer>
     </div>
   )
 }
+
