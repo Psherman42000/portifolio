@@ -26,11 +26,11 @@ export const rootNodeIds = ['about', 'experience', 'skills', 'projects', 'contac
 const graphLayout = {
   center: { id: 'root', position: [0, 0, 0], color: '#DFFBF7' },
   nodes: [
-    { id: 'about', position: [-3.25, 1.55, -0.45], mobilePosition: [-2.25, 1.55, 0], color: '#00FFD1' },
-    { id: 'experience', position: [3.35, 1.25, -0.7], mobilePosition: [2.25, 1.18, 0], color: '#7B61FF' },
-    { id: 'skills', position: [-3.4, -1.5, 0.8], mobilePosition: [-2.25, -1.18, 0], color: '#56D364' },
-    { id: 'projects', position: [3.45, -1.18, 0.95], mobilePosition: [2.25, -1.02, 0], color: '#FF6B35' },
-    { id: 'contact', position: [0, -2.45, 1.1], mobilePosition: [0, -2.22, 0], color: '#7DD3FC' },
+    { id: 'about', position: [-3.25, 1.55, -0.45], mobilePosition: [-1.95, 1.36, 0], color: '#00FFD1' },
+    { id: 'experience', position: [3.35, 1.25, -0.7], mobilePosition: [2.95, 1.12, 0], color: '#7B61FF' },
+    { id: 'skills', position: [-3.4, -1.5, 0.8], mobilePosition: [-2.02, -1.02, 0], color: '#56D364' },
+    { id: 'projects', position: [3.45, -1.18, 0.95], mobilePosition: [2.95, -0.78, 0], color: '#FF6B35' },
+    { id: 'contact', position: [0, -2.45, 1.1], mobilePosition: [0, -2.18, 0], color: '#7DD3FC' },
   ],
 }
 
@@ -1195,7 +1195,7 @@ function getContent(locale) {
     },
     cv: {
       label: text.cvLabel,
-      file: '/pedro-dias-cv-2026.pdf',
+      file: '/Pedro_Dias_CV_2026-1.pdf',
     },
     graph: getGraph(locale),
     about: {

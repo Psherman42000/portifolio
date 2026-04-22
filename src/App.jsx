@@ -46,6 +46,7 @@ export default function App() {
 
   const activeNodeId = rootPanel?.rootNodeId ?? null
   const isDimmed = panelStack.length > 0 && !isMobile
+  const mobileExplorerNodes = useMemo(() => content.graph.nodes.filter((node) => node.id !== 'root'), [content.graph.nodes])
 
   useEffect(() => {
     const langMap = { pt: 'pt-BR', en: 'en', es: 'es' }
@@ -185,6 +186,23 @@ export default function App() {
               <span className="graph-hud__label">{content.ui.mapLabel}</span>
               <h1 className={`graph-hud__title ${glitchOn ? 'graph-hud__title-glitch' : ''}`}>Pedro Dias</h1>
               <p className="graph-hud__description">{isMobile ? content.ui.tapHint : content.ui.hoverHint}</p>
+              {isMobile && !panelStack.length ? (
+                <div className="mobile-explorer" data-interactive="true">
+                  {mobileExplorerNodes.map((node) => (
+                    <button
+                      key={node.id}
+                      type="button"
+                      className="mobile-explorer__button"
+                      style={{ '--node-color': node.color }}
+                      onClick={() => handleOpenNode(node.id)}
+                      data-interactive="true"
+                    >
+                      <span className="mobile-explorer__dot" />
+                      <span>{node.label}</span>
+                    </button>
+                  ))}
+                </div>
+              ) : null}
             </div>
             {panelStack.length ? (
               <button type="button" className="map-reset-button map-reset-button-floating" onClick={clearPanels} data-interactive="true">

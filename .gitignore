@@ -11,3 +11,8 @@ dist
 output
 .DS_Store
 Thumbs.db
+tmp-*.log
+tmp-*.png
+tmp-*.mjs
+tmp-*.cjs
+test-results

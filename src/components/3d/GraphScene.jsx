@@ -23,18 +23,19 @@ function GraphRig({ graph, activeNodeId, onOpenNode, graphIntensity, isMobile, g
   useEffect(() => {
     const activeNode = graphNodes.find((node) => node.id === activeNodeId)
     if (activeNode) {
-      cameraTarget.current.set(activeNode.position[0] * 0.44, activeNode.position[1] * 0.28, isMobile ? 7.8 : 6.7)
+      cameraTarget.current.set(activeNode.position[0] * (isMobile ? 0.24 : 0.44), activeNode.position[1] * (isMobile ? 0.16 : 0.28), isMobile ? 9.4 : 6.7)
       lookTarget.current.set(activeNode.position[0] * 0.18, activeNode.position[1] * 0.12, 0)
       return
     }
 
-    cameraTarget.current.set(0, 0.12, isMobile ? 8.8 : 8.2)
+    cameraTarget.current.set(0, isMobile ? 0.44 : 0.12, isMobile ? 10.9 : 8.2)
     lookTarget.current.set(0, 0, 0)
   }, [activeNodeId, graphNodes, isMobile])
 
   useFrame((state, delta) => {
     if (groupRef.current) {
       groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, 0, 0.08)
+      groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, isMobile ? 0.46 : 0, 0.08)
       groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, 0, 0.08)
     }
 
@@ -56,6 +57,7 @@ function GraphRig({ graph, activeNodeId, onOpenNode, graphIntensity, isMobile, g
         onBlur={() => setHoveredNodeId(null)}
         onSelect={() => {}}
         glitchOn={glitchOn}
+        isMobile={isMobile}
       />
       {graphNodes.map((node) => (
         <GraphNode
@@ -66,6 +68,7 @@ function GraphRig({ graph, activeNodeId, onOpenNode, graphIntensity, isMobile, g
           onHover={setHoveredNodeId}
           onBlur={() => setHoveredNodeId(null)}
           onSelect={onOpenNode}
+          isMobile={isMobile}
         />
       ))}
     </group>
@@ -75,7 +78,7 @@ function GraphRig({ graph, activeNodeId, onOpenNode, graphIntensity, isMobile, g
 export default function GraphScene({ graph, activeNodeId, onOpenNode, graphIntensity = 1, dpr = 1.25, isMobile = false, glitchOn = false }) {
   return (
     <div className="graph-canvas-shell">
-      <Canvas camera={{ position: [0, 0.12, isMobile ? 8.8 : 8.2], fov: isMobile ? 52 : 42 }} dpr={[1, dpr]}>
+      <Canvas camera={{ position: [0, isMobile ? 0.44 : 0.12, isMobile ? 10.9 : 8.2], fov: isMobile ? 61 : 42 }} dpr={[1, dpr]}>
         <Suspense fallback={null}>
           <GraphRig graph={graph} activeNodeId={activeNodeId} onOpenNode={onOpenNode} graphIntensity={graphIntensity} isMobile={isMobile} glitchOn={glitchOn} />
         </Suspense>
