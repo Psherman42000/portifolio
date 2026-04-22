@@ -1,11 +1,11 @@
-﻿import IntegrationMap from '../projects/IntegrationMap'
+import IntegrationMap from '../projects/IntegrationMap'
 
-export default function ProjectDetailPanel({ project, isMobile }) {
+export default function ProjectDetailPanel({ project, isMobile, section }) {
   return (
     <div className="panel-section project-detail-panel">
       <p className="panel-lead">{project.summary}</p>
       {project.traffic ? <div className="project-traffic-large">{project.traffic}</div> : null}
-      <IntegrationMap project={project} compact={isMobile} showLegend />
+      <IntegrationMap project={project} compact={isMobile} showLegend compactArrow={section.compactArrow} />
 
       {project.metrics ? (
         <div className="project-metrics-list">
@@ -19,3 +19,4 @@ export default function ProjectDetailPanel({ project, isMobile }) {
     </div>
   )
 }
+

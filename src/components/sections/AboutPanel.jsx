@@ -48,8 +48,8 @@ export default function AboutPanel({ section }) {
       <motion.div className="about-panel__visual" initial={{ opacity: 0, scale: 0.95 }} animate={inView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 0.75, delay: 0.15 }}>
         <AboutTorusKnot />
         <div className="about-panel__visual-copy">
-          <span>complexity knot</span>
-          <span>wireframe representation of distributed integrations</span>
+          <span>{section.visualLabel}</span>
+          <span>{section.visualDescription}</span>
         </div>
       </motion.div>
     </div>

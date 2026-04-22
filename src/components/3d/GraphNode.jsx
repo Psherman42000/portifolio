@@ -1,47 +1,71 @@
-﻿import { Html } from '@react-three/drei'
+import { Html } from '@react-three/drei'
 import { animated, useSpring } from '@react-spring/three'
 import { useMemo } from 'react'
 
 export default function GraphNode({ node, isActive, isHovered, onHover, onBlur, onSelect, glitchOn = false }) {
   const scaleSpring = useSpring({
-    scale: isActive ? 1.4 : isHovered ? 1.16 : 1,
+    scale: isActive ? 1.4 : isHovered ? 1.18 : 1,
     config: { mass: 1, tension: 220, friction: 18 },
   })
 
-  const emissiveIntensity = isActive ? 2.6 : isHovered ? 1.6 : 0.92
-  const glowSize = isActive ? 1.52 : 1.18
-  const labelClass = useMemo(() => `graph-tooltip ${isHovered || isActive ? 'graph-tooltip-visible' : ''}`, [isActive, isHovered])
+  const emissiveIntensity = isActive ? 2.8 : isHovered ? 1.85 : 0.94
+  const outerGlowSize = node.id === 'root' ? (isActive ? 1.6 : 1.4) : isActive ? 1.34 : 1.18
+  const labelClass = useMemo(
+    () => `graph-node-chip ${isActive ? 'graph-node-chip-active' : ''} ${isHovered ? 'graph-node-chip-hovered' : ''}`,
+    [isActive, isHovered],
+  )
+
+  const triggerSelect = (event) => {
+    event.stopPropagation()
+    onSelect(node.id)
+  }
 
   return (
     <group position={node.position}>
-      <animated.mesh
-        scale={scaleSpring.scale}
+      <mesh
         onPointerOver={(event) => {
           event.stopPropagation()
           onHover(node.id)
         }}
-        onPointerOut={onBlur}
-        onClick={(event) => {
+        onPointerOut={(event) => {
           event.stopPropagation()
-          onSelect(node.id)
+          onBlur()
         }}
+        onClick={triggerSelect}
       >
-        <sphereGeometry args={[node.id === 'root' ? 0.66 : 0.36, node.id === 'root' ? 36 : 28, node.id === 'root' ? 36 : 28]} />
-        <meshStandardMaterial color={node.color} emissive={node.color} emissiveIntensity={emissiveIntensity} roughness={0.3} metalness={0.18} />
-      </animated.mesh>
-
-      <mesh scale={glowSize}>
-        <sphereGeometry args={[node.id === 'root' ? 0.72 : 0.42, 20, 20]} />
-        <meshBasicMaterial color={node.color} transparent opacity={isActive ? 0.12 : isHovered ? 0.08 : 0.035} />
+        <sphereGeometry args={[node.id === 'root' ? 1.16 : 0.82, 24, 24]} />
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
       </mesh>
 
-      <Html center distanceFactor={node.id === 'root' ? 8.2 : 9.6} position={[0, node.id === 'root' ? 0.96 : 0.68, 0]}>
-        <div className={node.id === 'root' ? `graph-center-label ${isActive ? 'graph-center-label-active' : ''} ${glitchOn ? 'graph-center-label-glitch' : ''}` : labelClass}>
-          <span>{node.label}</span>
-        </div>
+      <animated.mesh scale={scaleSpring.scale} onClick={triggerSelect}>
+        <sphereGeometry args={[node.id === 'root' ? 0.66 : 0.38, node.id === 'root' ? 36 : 28, node.id === 'root' ? 36 : 28]} />
+        <meshStandardMaterial color={node.color} emissive={node.color} emissiveIntensity={emissiveIntensity} roughness={0.28} metalness={0.2} />
+      </animated.mesh>
+
+      <mesh scale={outerGlowSize}>
+        <sphereGeometry args={[node.id === 'root' ? 0.72 : 0.42, 22, 22]} />
+        <meshBasicMaterial color={node.color} transparent opacity={isActive ? 0.14 : isHovered ? 0.1 : 0.04} />
+      </mesh>
+
+      <Html center distanceFactor={node.id === 'root' ? 8.4 : 10.2} position={[0, node.id === 'root' ? 0.98 : -0.72, 0]}>
+        {node.id === 'root' ? (
+          <div className={`graph-center-label ${isActive ? 'graph-center-label-active' : ''} ${glitchOn ? 'graph-center-label-glitch' : ''}`}>
+            <span>{node.label}</span>
+          </div>
+        ) : (
+          <button
+            type="button"
+            className={labelClass}
+            style={{ '--node-color': node.color }}
+            onClick={triggerSelect}
+            onMouseEnter={() => onHover(node.id)}
+            onMouseLeave={() => onBlur()}
+            data-interactive="true"
+          >
+            {node.label}
+          </button>
+        )}
       </Html>
     </group>
   )
 }
-
-

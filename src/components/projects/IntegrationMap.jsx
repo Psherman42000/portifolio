@@ -26,14 +26,14 @@ function NodeBadge({ node }) {
   )
 }
 
-export default function IntegrationMap({ project, compact = false, showLegend = true }) {
+export default function IntegrationMap({ project, compact = false, showLegend = true, compactArrow = '->' }) {
   if (compact) {
     return (
       <div className="integration-map-compact">
         {project.nodes.map((node, index) => (
           <div key={node.id} className="integration-map-compact__row">
             <span className={`compact-node compact-node-${node.kind}`}>{node.label}</span>
-            {index < project.nodes.length - 1 ? <span className="compact-arrow">?</span> : null}
+            {index < project.nodes.length - 1 ? <span className="compact-arrow">{compactArrow}</span> : null}
           </div>
         ))}
       </div>
@@ -44,7 +44,7 @@ export default function IntegrationMap({ project, compact = false, showLegend = 
 
   return (
     <div className="integration-map-shell">
-      <svg viewBox="0 0 760 560" className="integration-map" role="img" aria-label={`Mapa de integracao do projeto ${project.name}`}>
+      <svg viewBox="0 0 760 560" className="integration-map" role="img" aria-label={project.ariaLabel ?? project.name}>
         <defs>
           {project.edges.map((edge, index) => {
             const from = nodeMap[edge.from]

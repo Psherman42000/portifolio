@@ -39,6 +39,18 @@ const fragmentShader = `
       (d - b) * u.x * u.y;
   }
 
+  float starLayer(vec2 uv, float density, float threshold, float scale, float timeOffset) {
+    vec2 scaledUv = uv * density;
+    vec2 cell = floor(scaledUv);
+    vec2 local = fract(scaledUv) - 0.5;
+    float seed = random(cell);
+    float starMask = step(threshold, seed);
+    float dist = length(local);
+    float star = smoothstep(scale, 0.0, dist);
+    float twinkle = 0.72 + 0.28 * sin(uTime * (0.8 + seed * 2.2) + seed * 90.0 + timeOffset);
+    return starMask * star * twinkle;
+  }
+
   void main() {
     vec2 uv = vUv;
     vec2 aspect = vec2(uResolution.x / max(uResolution.y, 1.0), 1.0);
@@ -60,6 +72,10 @@ const fragmentShader = `
     color += cyan * waves * 0.12;
     color += violet * field2 * 0.045;
     color += cyan * diagonalPulse * 0.08;
+
+    float starsNear = starLayer(uv + vec2(uTime * 0.002, 0.0), 52.0, 0.992, 0.095, 0.0);
+    float starsFar = starLayer(uv * 1.3 + vec2(0.0, uTime * 0.0015), 88.0, 0.996, 0.07, 2.8);
+    color += vec3(0.82, 0.94, 1.0) * (starsNear * 0.22 + starsFar * 0.14);
 
     float vignette = smoothstep(1.35, 0.15, distance(uv, vec2(0.5)));
     color *= vignette;

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { useMemo, useState } from 'react'
 import ScrollProgress from './ScrollProgress'
 
-export default function ImmersivePanel({ panel, depth, isTop, isMobile, onClose, children }) {
+export default function ImmersivePanel({ panel, depth, isTop, isMobile, onClose, closeLabel, children }) {
   const [progress, setProgress] = useState(0)
   const panelStyle = useMemo(
     () => ({
@@ -29,7 +29,7 @@ export default function ImmersivePanel({ panel, depth, isTop, isMobile, onClose,
           {panel.eyebrow ? <p className="immersive-panel__eyebrow">{panel.eyebrow}</p> : null}
           <h2 className="immersive-panel__title">{panel.title}</h2>
         </div>
-        <button type="button" className="panel-close" onClick={onClose} aria-label="Fechar painel" data-interactive="true">
+        <button type="button" className="panel-close" onClick={onClose} aria-label={closeLabel} data-interactive="true">
           <X size={18} />
         </button>
       </header>

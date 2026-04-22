@@ -33,9 +33,9 @@ function GraphRig({ graph, activeNodeId, onOpenNode, graphIntensity, isMobile, g
   }, [activeNodeId, graphNodes, isMobile])
 
   useFrame((state, delta) => {
-    if (groupRef.current && !isMobile) {
-      groupRef.current.rotation.y += delta * 0.06 * graphIntensity
-      groupRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.55) * 0.09
+    if (groupRef.current) {
+      groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, 0, 0.08)
+      groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, 0, 0.08)
     }
 
     state.camera.position.lerp(cameraTarget.current, 0.06)

@@ -1,6 +1,6 @@
 ﻿import { useEffect, useMemo, useState, lazy, Suspense } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { getPortfolioContent, rootNodeIds } from './data'
+import { defaultLocale, getPortfolioContent, rootNodeIds } from './data'
 import useDeviceTier from './hooks/useDeviceTier'
 import useGlitchCycle from './hooks/useGlitchCycle'
 import { usePrefersReducedMotion } from './hooks/usePrefersReducedMotion'
@@ -31,13 +31,14 @@ function createRootPanel(id, content) {
   }
 }
 
-function PanelFallback() {
-  return <div className="panel-loading">carregando...</div>
+function PanelFallback({ label }) {
+  return <div className="panel-loading">{label}</div>
 }
 
 export default function App() {
-  const content = useMemo(() => getPortfolioContent('pt'), [])
   const [loadingDone, setLoadingDone] = useState(false)
+  const [locale, setLocale] = useState(defaultLocale)
+  const content = useMemo(() => getPortfolioContent(locale), [locale])
   const { isMobile, quality, graphIntensity, dpr } = useDeviceTier()
   const prefersReducedMotion = usePrefersReducedMotion()
   const { glitchOn } = useGlitchCycle()
@@ -47,25 +48,32 @@ export default function App() {
   const isDimmed = panelStack.length > 0 && !isMobile
 
   useEffect(() => {
-    document.documentElement.lang = 'pt-BR'
+    const langMap = { pt: 'pt-BR', en: 'en', es: 'es' }
+    document.documentElement.lang = langMap[locale] ?? 'pt-BR'
     document.title = content.meta.title
     const description = document.querySelector('meta[name="description"]')
     if (description) {
       description.setAttribute('content', content.meta.description)
     }
-  }, [content.meta.description, content.meta.title])
+  }, [content.meta.description, content.meta.title, locale])
 
   const handleOpenNode = (nodeId) => {
     if (!rootNodeIds.includes(nodeId)) return
     openRootPanel(createRootPanel(nodeId, content))
   }
 
-  const stackPath = ['mapa', ...panelStack.map((panel) => panel.title)].join(' / ')
+  const handleChangeLocale = (nextLocale) => {
+    if (nextLocale === locale) return
+    clearPanels()
+    setLocale(nextLocale)
+  }
+
+  const stackPath = [content.ui.stackRoot, ...panelStack.map((panel) => panel.title)].join(' / ')
 
   const renderPanel = (panel) => {
     if (panel.type === 'about') {
       return (
-        <Suspense fallback={<PanelFallback />}>
+        <Suspense fallback={<PanelFallback label={content.ui.loadingPanel} />}>
           <AboutPanel section={panel.payload} />
         </Suspense>
       )
@@ -73,7 +81,7 @@ export default function App() {
 
     if (panel.type === 'experience') {
       return (
-        <Suspense fallback={<PanelFallback />}>
+        <Suspense fallback={<PanelFallback label={content.ui.loadingPanel} />}>
           <ExperienceTerminalPanel section={panel.payload} cv={content.cv} />
         </Suspense>
       )
@@ -81,7 +89,7 @@ export default function App() {
 
     if (panel.type === 'skills') {
       return (
-        <Suspense fallback={<PanelFallback />}>
+        <Suspense fallback={<PanelFallback label={content.ui.loadingPanel} />}>
           <SkillsHexPanel section={panel.payload} />
         </Suspense>
       )
@@ -89,7 +97,7 @@ export default function App() {
 
     if (panel.type === 'projects') {
       return (
-        <Suspense fallback={<PanelFallback />}>
+        <Suspense fallback={<PanelFallback label={content.ui.loadingPanel} />}>
           <ProjectsPanel
             section={panel.payload}
             isMobile={isMobile}
@@ -99,7 +107,7 @@ export default function App() {
                 type: 'project-detail',
                 rootNodeId: 'projects',
                 title: project.name,
-                eyebrow: 'Projeto em producao',
+                eyebrow: content.projects.detailEyebrow,
                 payload: project,
               })
             }
@@ -110,15 +118,15 @@ export default function App() {
 
     if (panel.type === 'project-detail') {
       return (
-        <Suspense fallback={<PanelFallback />}>
-          <ProjectDetailPanel project={panel.payload} isMobile={isMobile} />
+        <Suspense fallback={<PanelFallback label={content.ui.loadingPanel} />}>
+          <ProjectDetailPanel project={panel.payload} isMobile={isMobile} section={content.projects} />
         </Suspense>
       )
     }
 
     if (panel.type === 'contact') {
       return (
-        <Suspense fallback={<PanelFallback />}>
+        <Suspense fallback={<PanelFallback label={content.ui.loadingPanel} />}>
           <ContactPanel section={panel.payload} />
         </Suspense>
       )
@@ -139,7 +147,18 @@ export default function App() {
       <div className={`scanlines ${panelStack.length ? 'scanlines-active' : ''}`} aria-hidden="true" />
       <div className="grid-overlay-system" aria-hidden="true" />
 
-      <Navbar nodes={content.graph.nodes} cv={content.cv} onOpenNode={handleOpenNode} stackPath={stackPath} isDimmed={isDimmed} />
+      <Navbar
+        nodes={content.graph.nodes}
+        cv={content.cv}
+        onOpenNode={handleOpenNode}
+        stackPath={stackPath}
+        isDimmed={isDimmed}
+        systemLabel={content.ui.systemLabel}
+        currentLocale={locale}
+        locales={content.ui.locales}
+        localeLabel={content.ui.localeLabel}
+        onChangeLocale={handleChangeLocale}
+      />
 
       <main className="system-stage">
         <div className={`graph-stage ${isMobile && panelStack.length ? 'graph-stage-hidden' : ''}`}>
@@ -175,7 +194,7 @@ export default function App() {
           </div>
         </div>
 
-        <PanelStack panels={panelStack} isMobile={isMobile} onClosePanel={popPanel} renderPanel={renderPanel} />
+        <PanelStack panels={panelStack} isMobile={isMobile} onClosePanel={popPanel} renderPanel={renderPanel} closeLabel={content.ui.close} />
       </main>
 
       <footer className={`system-footer ${panelStack.length ? 'system-footer-muted' : ''}`}>

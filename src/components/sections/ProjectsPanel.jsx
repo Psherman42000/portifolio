@@ -3,6 +3,8 @@
 export default function ProjectsPanel({ section, onOpenProject, isMobile }) {
   return (
     <div className="panel-section projects-panel">
+      <p className="panel-lead">{section.description}</p>
+
       <div className="projects-grid">
         {section.cards.map((project) => (
           <article key={project.id} className={`project-card ${project.size === 'full' ? 'project-card-full' : ''}`}>
@@ -15,12 +17,12 @@ export default function ProjectsPanel({ section, onOpenProject, isMobile }) {
             </header>
 
             <p className="project-card__summary">{project.summary}</p>
-            <IntegrationMap project={project} compact={isMobile} showLegend={project.size === 'full'} />
+            <IntegrationMap project={project} compact={isMobile} showLegend={project.size === 'full'} compactArrow={section.compactArrow} />
 
             <div className="project-card__actions">
-              {project.environment ? <span className="project-pill">Ambiente: {project.environment}</span> : null}
+              {project.environment ? <span className="project-pill">{section.environmentLabel}: {project.environment}</span> : null}
               <button type="button" className="project-open-button" onClick={() => onOpenProject(project)} data-interactive="true">
-                Ver detalhes
+                {section.detailsLabel}
               </button>
             </div>
           </article>

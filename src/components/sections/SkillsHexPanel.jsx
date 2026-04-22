@@ -45,7 +45,7 @@ export default function SkillsHexPanel({ section }) {
           </p>
           <h4>{selectedSkill.name}</h4>
           <p>{selectedSkill.description}</p>
-          <div className="skill-level-pill">Nivel: {selectedSkill.level}</div>
+          <div className="skill-level-pill">{section.detailLevelLabel}: {selectedSkill.level}</div>
         </aside>
       </div>
     </div>

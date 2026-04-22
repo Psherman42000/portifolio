@@ -57,25 +57,30 @@ export default function ContactPanel({ section }) {
 
           <form className="transmission-form" onSubmit={handleSubmit}>
             <label>
-              <span>FROM_NAME</span>
-              <input value={formData.name} onChange={(event) => setFormData((current) => ({ ...current, name: event.target.value }))} placeholder="Seu nome" required />
-            </label>
-            <label>
-              <span>FROM_EMAIL</span>
+              <span>{section.fields.nameLabel}</span>
               <input
-                type="email"
-                value={formData.email}
-                onChange={(event) => setFormData((current) => ({ ...current, email: event.target.value }))}
-                placeholder="voce@empresa.com"
+                value={formData.name}
+                onChange={(event) => setFormData((current) => ({ ...current, name: event.target.value }))}
+                placeholder={section.fields.namePlaceholder}
                 required
               />
             </label>
             <label>
-              <span>MESSAGE</span>
+              <span>{section.fields.emailLabel}</span>
+              <input
+                type="email"
+                value={formData.email}
+                onChange={(event) => setFormData((current) => ({ ...current, email: event.target.value }))}
+                placeholder={section.fields.emailPlaceholder}
+                required
+              />
+            </label>
+            <label>
+              <span>{section.fields.messageLabel}</span>
               <textarea
                 value={formData.message}
                 onChange={(event) => setFormData((current) => ({ ...current, message: event.target.value }))}
-                placeholder="Conte um pouco sobre a arquitetura, desafio ou produto que voce quer colocar em producao."
+                placeholder={section.fields.messagePlaceholder}
                 rows={7}
                 required
               />

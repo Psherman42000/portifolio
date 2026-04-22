@@ -1,7 +1,7 @@
 ﻿import { AnimatePresence } from 'framer-motion'
 import ImmersivePanel from './ImmersivePanel'
 
-export default function PanelStack({ panels, isMobile, onClosePanel, renderPanel }) {
+export default function PanelStack({ panels, isMobile, onClosePanel, renderPanel, closeLabel }) {
   if (!panels.length) return null
 
   return (
@@ -10,7 +10,7 @@ export default function PanelStack({ panels, isMobile, onClosePanel, renderPanel
         {panels.map((panel, index) => {
           const isTop = index === panels.length - 1
           return (
-            <ImmersivePanel key={panel.key} panel={panel} depth={index} isTop={isTop} isMobile={isMobile} onClose={onClosePanel}>
+            <ImmersivePanel key={panel.key} panel={panel} depth={index} isTop={isTop} isMobile={isMobile} onClose={onClosePanel} closeLabel={closeLabel}>
               {renderPanel(panel, isTop)}
             </ImmersivePanel>
           )
