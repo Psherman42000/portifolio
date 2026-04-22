@@ -1,8 +1,11 @@
 import { Html } from '@react-three/drei'
 import { animated, useSpring } from '@react-spring/three'
-import { useMemo } from 'react'
+import { useFrame } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 
 export default function GraphNode({ node, isActive, isHovered, onHover, onBlur, onSelect, glitchOn = false }) {
+  const coreRef = useRef(null)
+  const glowRef = useRef(null)
   const scaleSpring = useSpring({
     scale: isActive ? 1.4 : isHovered ? 1.18 : 1,
     config: { mass: 1, tension: 220, friction: 18 },
@@ -19,6 +22,19 @@ export default function GraphNode({ node, isActive, isHovered, onHover, onBlur, 
     event.stopPropagation()
     onSelect(node.id)
   }
+
+  useFrame((state, delta) => {
+    if (node.id !== 'root') return
+    if (coreRef.current) {
+      coreRef.current.rotation.y += delta * 0.22
+      coreRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.45) * 0.12
+    }
+
+    if (glowRef.current) {
+      const pulse = 1 + Math.sin(state.clock.elapsedTime * 1.35) * 0.035
+      glowRef.current.scale.setScalar(outerGlowSize * pulse)
+    }
+  })
 
   return (
     <group position={node.position}>
@@ -37,12 +53,12 @@ export default function GraphNode({ node, isActive, isHovered, onHover, onBlur, 
         <meshBasicMaterial transparent opacity={0} depthWrite={false} />
       </mesh>
 
-      <animated.mesh scale={scaleSpring.scale} onClick={triggerSelect}>
+      <animated.mesh ref={coreRef} scale={scaleSpring.scale} onClick={triggerSelect}>
         <sphereGeometry args={[node.id === 'root' ? 0.66 : 0.38, node.id === 'root' ? 36 : 28, node.id === 'root' ? 36 : 28]} />
         <meshStandardMaterial color={node.color} emissive={node.color} emissiveIntensity={emissiveIntensity} roughness={0.28} metalness={0.2} />
       </animated.mesh>
 
-      <mesh scale={outerGlowSize}>
+      <mesh ref={glowRef} scale={outerGlowSize}>
         <sphereGeometry args={[node.id === 'root' ? 0.72 : 0.42, 22, 22]} />
         <meshBasicMaterial color={node.color} transparent opacity={isActive ? 0.14 : isHovered ? 0.1 : 0.04} />
       </mesh>
