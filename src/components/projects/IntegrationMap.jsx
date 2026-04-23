@@ -30,12 +30,30 @@ export default function IntegrationMap({ project, compact = false, showLegend = 
   if (compact) {
     return (
       <div className="integration-map-compact">
-        {project.nodes.map((node, index) => (
-          <div key={node.id} className="integration-map-compact__row">
-            <span className={`compact-node compact-node-${node.kind}`}>{node.label}</span>
-            {index < project.nodes.length - 1 ? <span className="compact-arrow">{compactArrow}</span> : null}
+        <div className="integration-map-compact__header">
+          <span className="integration-map-compact__pulse" />
+          <span>Fluxo simplificado para mobile</span>
+        </div>
+
+        <div className="integration-map-compact__stack">
+          {project.nodes.map((node) => (
+            <div key={node.id} className={`compact-node compact-node-${node.kind}`} style={{ '--node-color': node.kind === 'hub' ? '#7B61FF' : node.kind === 'primary' ? '#00FFD1' : '#E8F0FF' }}>
+              <span className="compact-node__dot" />
+              <span>{node.label}</span>
+            </div>
+          ))}
+        </div>
+
+        {showLegend && project.legend ? (
+          <div className="integration-legend integration-legend-compact">
+            {project.legend.map((item) => (
+              <span key={item.label} className="integration-legend__item">
+                <i style={{ background: item.color }} />
+                {item.label}
+              </span>
+            ))}
           </div>
-        ))}
+        ) : null}
       </div>
     )
   }

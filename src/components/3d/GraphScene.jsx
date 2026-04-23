@@ -5,7 +5,6 @@ import GraphConnections from './GraphConnections'
 import GraphNode from './GraphNode'
 
 function GraphRig({ graph, activeNodeId, onOpenNode, graphIntensity, isMobile, glitchOn }) {
-  const groupRef = useRef(null)
   const [hoveredNodeId, setHoveredNodeId] = useState(null)
   const cameraTarget = useRef(new THREE.Vector3(0, 0, 8.6))
   const lookTarget = useRef(new THREE.Vector3(0, 0, 0))
@@ -32,23 +31,17 @@ function GraphRig({ graph, activeNodeId, onOpenNode, graphIntensity, isMobile, g
     lookTarget.current.set(0, 0, 0)
   }, [activeNodeId, graphNodes, isMobile])
 
-  useFrame((state, delta) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, 0, 0.08)
-      groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, isMobile ? 0.46 : 0, 0.08)
-      groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, 0, 0.08)
-    }
-
+  useFrame((state) => {
     state.camera.position.lerp(cameraTarget.current, 0.06)
     state.camera.lookAt(lookTarget.current)
   })
 
   return (
-    <group ref={groupRef}>
+    <group>
       <ambientLight intensity={0.65} />
       <pointLight position={[0, 3, 7]} intensity={12} color="#00FFD1" />
       <pointLight position={[3, -4, 4]} intensity={8} color="#7B61FF" />
-      <GraphConnections centerPosition={centerNode.position} nodes={graphNodes} intensity={graphIntensity} />
+      <GraphConnections centerPosition={centerNode.position} nodes={graphNodes} intensity={graphIntensity} isMobile={isMobile} />
       <GraphNode
         node={centerNode}
         isActive={!activeNodeId}

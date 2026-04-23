@@ -298,7 +298,7 @@ const localeText = {
     metaTitle: 'Pedro Dias | Sistema Vivo de Integracoes',
     metaDescription: 'Portifolio interativo de Pedro Dias, Tech Lead especializado em integracoes, arquitetura de sistemas e IA aplicada.',
     ui: {
-      systemLabel: 'malha de integracao ativa',
+      systemLabel: 'especialista em integrações',
       mapLabel: 'Mapa de Integracao',
       tapHint: 'toque em um no para explorar',
       hoverHint: 'clique em qualquer no para abrir um painel',
@@ -580,7 +580,7 @@ const localeText = {
     metaTitle: 'Pedro Dias | Living Integration System',
     metaDescription: 'Interactive portfolio for Pedro Dias, a Tech Lead focused on integrations, software architecture, and applied AI.',
     ui: {
-      systemLabel: 'integration mesh online',
+      systemLabel: 'integration specialist',
       mapLabel: 'Integration Map',
       tapHint: 'tap a node to explore',
       hoverHint: 'click any node to open a panel',
@@ -862,7 +862,7 @@ const localeText = {
     metaTitle: 'Pedro Dias | Sistema Vivo de Integraciones',
     metaDescription: 'Portafolio interactivo de Pedro Dias, Tech Lead especializado en integraciones, arquitectura de software e IA aplicada.',
     ui: {
-      systemLabel: 'malla de integracion activa',
+      systemLabel: 'especialista en integraciones',
       mapLabel: 'Mapa de Integracion',
       tapHint: 'toca un nodo para explorar',
       hoverHint: 'haz clic en cualquier nodo para abrir un panel',

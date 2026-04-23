@@ -16,3 +16,5 @@ tmp-*.png
 tmp-*.mjs
 tmp-*.cjs
 test-results
+
+.vercel

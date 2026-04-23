@@ -1,7 +1,8 @@
-﻿import { Line } from '@react-three/drei'
+import { Line } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { useMemo, useRef } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
+import { getConnectionEndpoints } from './orbit'
 
 const FLOW_COLORS = {
   catalog: '#00FFD1',
@@ -39,11 +40,17 @@ function DataPulse({ points, edge, index, intensity = 1 }) {
   )
 }
 
-export default function GraphConnections({ centerPosition, nodes, intensity = 1 }) {
+export default function GraphConnections({ centerPosition, nodes, intensity = 1, isMobile = false }) {
   const pulseCount = intensity < 0.7 ? 1 : 2
+  const [orbitTick, setOrbitTick] = useState(0)
+
+  useFrame((state) => {
+    setOrbitTick(state.clock.elapsedTime)
+  })
 
   return nodes.map((node) => {
-    const points = getLinePoints(centerPosition, node.position)
+    const { start, end } = getConnectionEndpoints(centerPosition, node, orbitTick, isMobile)
+    const points = getLinePoints(start.toArray(), end.toArray())
 
     return (
       <group key={`edge-${node.id}`}>

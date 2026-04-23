@@ -6,7 +6,6 @@ export default function Navbar({
   nodes,
   cv,
   onOpenNode,
-  stackPath,
   isDimmed = false,
   systemLabel,
   currentLocale,
@@ -29,8 +28,6 @@ export default function Navbar({
         <div className="nav-meta">
           <span className="nav-status-dot" />
           <span>{systemLabel}</span>
-          <span className="nav-divider">/</span>
-          <span>{stackPath}</span>
         </div>
 
         <nav className="nav-links" aria-label="Secoes principais">

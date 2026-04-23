@@ -69,8 +69,6 @@ export default function App() {
     setLocale(nextLocale)
   }
 
-  const stackPath = [content.ui.stackRoot, ...panelStack.map((panel) => panel.title)].join(' / ')
-
   const renderPanel = (panel) => {
     if (panel.type === 'about') {
       return (
@@ -152,7 +150,6 @@ export default function App() {
         nodes={content.graph.nodes}
         cv={content.cv}
         onOpenNode={handleOpenNode}
-        stackPath={stackPath}
         isDimmed={isDimmed}
         systemLabel={content.ui.systemLabel}
         currentLocale={locale}
